@@ -1,0 +1,20 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Collectible\Collectible.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Player\PlayerPrototype.cs" Line="38" Column="37" />
+      <File FileName="Assets\Scripts\Player\PlayerBehaviour\AbstractPlayerBehaviour.cs" Line="18" Column="84" />
+      <File FileName="Assets\Scripts\GameManager.cs" Line="71" Column="21" />
+      <File FileName="Assets\Scripts\Player\PlayerBehaviour\JumpingPlayerBehaviour.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Control\PlayerControlTouch.cs" Line="5" Column="23" />
+      <File FileName="Assets\Scripts\GameSettings.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemy\Enemy.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\LevelGenerator.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Collectible\Collectible.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
