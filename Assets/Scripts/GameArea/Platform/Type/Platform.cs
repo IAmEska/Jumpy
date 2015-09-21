@@ -4,7 +4,7 @@ using System.Collections;
 [RequireComponent(typeof(SpriteRenderer))]
 public class Platform : MonoBehaviour
 {
-
+	public float maxWidth = 3f, minWidth = 1f;
 	protected SpriteRenderer _spriteRenderer;
 
 	// Use this for initialization

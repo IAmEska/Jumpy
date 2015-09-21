@@ -1,0 +1,14 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameArea/Platform/PlatformFactory.cs">
+    <Files>
+      <File FileName="Assets/Scripts/GameArea/LevelGenerator.cs" Line="84" Column="3" />
+      <File FileName="Assets/Scripts/GameArea/Platform/PlatformFactory.cs" Line="13" Column="2" />
+      <File FileName="Assets/Scripts/Player/PlayerPrototype.cs" Line="21" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

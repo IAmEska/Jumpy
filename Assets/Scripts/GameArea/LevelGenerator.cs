@@ -3,15 +3,13 @@ using System.Collections;
 
 public class LevelGenerator : MonoBehaviour
 {
-	public Platform platform;
 	public Platform startPlatform;
 
 	public EnemyFactory enemyFactory;
+	public CollectibleFactory collectibleFactory;
+	public PlatformFactory platformFactory;
 
-	public Coin coin;
 	public bool generate = false;
-
-	public GameObject platformHolder, coinHolder;
 
 	public float offsetY, offsetX;
 	public float coinChance = 20;
@@ -35,6 +33,11 @@ public class LevelGenerator : MonoBehaviour
 		float sizeX = Camera.main.orthographicSize * Screen.width / Screen.height;
 		_areaMinX = Camera.main.transform.position.x - sizeX;
 		_areaMaxX = Camera.main.transform.position.x + sizeX;
+
+		platformFactory.SetBounds (_areaMinX, _areaMaxX);
+		enemyFactory.SetBounds (_areaMinX, _areaMaxX);
+		platformFactory.SetBounds (_areaMinX, _areaMaxX);
+		platformFactory.SetOffset (offsetX);
 	}
 
 	public void Reset ()
@@ -48,9 +51,7 @@ public class LevelGenerator : MonoBehaviour
 	void FixedUpdate ()
 	{
 		if (_initStartPlatform) {
-			_startPlatformRef = Instantiate<Platform> (startPlatform);
-			_startPlatformRef.transform.position = new Vector3 (0, _startPosY, 0);
-			_startPlatformRef.transform.parent = platformHolder.transform;
+			platformFactory.InstantiateStartPlatform(_startPosY);
 			_initStartPlatform = false;
 		}
 
@@ -66,9 +67,9 @@ public class LevelGenerator : MonoBehaviour
 
 	protected void ClearAll ()
 	{
-		Clear (platformHolder);
+		Clear (platformFactory.gameObject);
 		Clear (enemyFactory.gameObject);
-		Clear (coinHolder);
+		Clear (collectibleFactory.gameObject);
 	}
 
 	protected void Clear (GameObject go)
@@ -84,47 +85,23 @@ public class LevelGenerator : MonoBehaviour
 
 	protected void GeneratePlatform ()
 	{
-		//TODO cache
-		Platform p = Instantiate<Platform> (platform);
-		float posX = Random.Range (_areaMinX, _areaMaxX);
-		if (_prevPlatform != null) {
-			if (Mathf.Abs (posX - _prevPlatform.transform.position.x) < offsetX) {
-				int r = Random.Range (0, 2);
-				if (r == 0) {
-					posX -= offsetX;
-					if (posX < _areaMinX)
-						posX = _areaMaxX - Mathf.Abs (posX);
-				} else {
-					posX += offsetX;
-					if (posX > _areaMaxX)
-						posX = _areaMinX + Mathf.Abs (posX);
-				}
-			}
-		}
-		p.transform.localScale = new Vector3 (Random.Range (minPlatformWidth, maxPlatformWidth), 1, 1);
-		p.transform.position = new Vector3 (posX, _currentPositionY);
-		p.transform.parent = platformHolder.transform;
-		_prevPlatform = p;
+		platformFactory.InstantiateItem (0, _currentPositionY);
 	}
 
 	protected void GenerateCoin ()
 	{
-		//TODO cache
 		int rP = Random.Range (0, 100);
 		if (rP <= coinChance) {
-			Coin c = Instantiate<Coin> (coin);
-			c.transform.position = new Vector3 (Random.Range (_areaMinX, _areaMaxX), _currentPositionY + offsetY / 2);
-			c.transform.parent = coinHolder.transform;
+			collectibleFactory.InstantiateItem(0, _currentPositionY + offsetY / 2);
 		}
 	}
 
 	protected void GenerateEnemy ()
 	{
-		//TODO cache
 		int rE = Random.Range (0, 100);
 		if (rE <= enemyChance) {
-			int eT = Random.Range (0, enemyFactory.enemies.Length);
-			enemyFactory.InstantiateEnemy (eT, _currentPositionY + offsetY / 2, new Vector2 (_areaMinX, _areaMaxX));
+			int eT = Random.Range (0, enemyFactory.items.Length);
+			enemyFactory.InstantiateItem (eT, _currentPositionY + offsetY / 2);
 		}
 	}
 }
