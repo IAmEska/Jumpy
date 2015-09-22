@@ -12,5 +12,9 @@ public class CollectibleFactory : AbstractFactory<Collectible> {
 		c.transform.position = new Vector3(Random.Range(_minX, _maxX), _positionY);
 	}
 
+	public override void DestoryItem (Collectible item)
+	{
+
+	}
 	#endregion
 }

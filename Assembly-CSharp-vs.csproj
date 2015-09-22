@@ -46,6 +46,10 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Cache\AbstractCache.cs" />
+     <Compile Include="Assets\Scripts\Cache\Types\CollectibleCache.cs" />
+     <Compile Include="Assets\Scripts\Cache\Types\EnemyCache.cs" />
+     <Compile Include="Assets\Scripts\Cache\Types\PlatformCache.cs" />
      <Compile Include="Assets\Scripts\Camera\CameraFollow.cs" />
      <Compile Include="Assets\Scripts\Control\PlayerControlTouch.cs" />
      <Compile Include="Assets\Scripts\Destructor.cs" />

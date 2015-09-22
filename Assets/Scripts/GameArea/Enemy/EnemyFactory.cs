@@ -15,5 +15,10 @@ public class EnemyFactory : AbstractFactory<Enemy>
 			
 		}
 	}
+
+	public override void DestoryItem (Enemy item)
+	{
+
+	}
 	#endregion
 }

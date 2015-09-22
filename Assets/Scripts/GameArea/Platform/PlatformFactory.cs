@@ -45,5 +45,11 @@ public class PlatformFactory : AbstractFactory<Platform> {
 		p.transform.parent = transform;
 		_prevPlatform = p;
 	}
+
+	public override void DestoryItem (Platform item)
+	{
+
+	}
+
 	#endregion
 }

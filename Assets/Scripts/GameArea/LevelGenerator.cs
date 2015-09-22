@@ -67,18 +67,20 @@ public class LevelGenerator : MonoBehaviour
 
 	protected void ClearAll ()
 	{
-		Clear (platformFactory.gameObject);
-		Clear (enemyFactory.gameObject);
-		Clear (collectibleFactory.gameObject);
+		Clear (platformFactory);
+		Clear (enemyFactory);
+		Clear (collectibleFactory);
 	}
 
-	protected void Clear (GameObject go)
+	protected void Clear<T> (AbstractFactory<T> factory) where T : MonoBehaviour
 	{
-		if (go.transform.childCount > 0) {
-			for (int i=0; i< go.transform.childCount; i++) {
-				var t = go.transform.GetChild (i);
-				//TODO cache
-				Destroy (t.gameObject);
+		if (factory.transform.childCount > 0) {
+			for (int i=0; i< factory.transform.childCount; i++) {
+				var t = factory.transform.GetChild (i);
+				if(t is T)
+				{
+					factory.DestoryItem(t as T);
+				}
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class AbstractFactory<T> : MonoBehaviour {
+public abstract class AbstractFactory<T> : MonoBehaviour where T : MonoBehaviour {
 
 	public T[] items;
 	
@@ -14,7 +14,7 @@ public abstract class AbstractFactory<T> : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-		if (_itemPosition > 0) {
+		if (_itemPosition >= 0) {
 			SpawnItem();
 		}
 		_itemPosition = -1;
@@ -31,6 +31,8 @@ public abstract class AbstractFactory<T> : MonoBehaviour {
 		_itemPosition = itemPosition;
 		_positionY = positionY;
 	}
+
+	public abstract void DestoryItem(T item);
 
 	protected abstract void SpawnItem();
 }
