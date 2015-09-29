@@ -28,8 +28,7 @@ public class Destructor : MonoBehaviour
 	{
 		int objLayerMask = (1 << other.gameObject.layer);
 		if ((_destroyLayer & objLayerMask) == objLayerMask) {
-			//FIXME cache
-			Destroy (other.gameObject);
+            levelGenerator.DestroyObject(other.gameObject);
 		} else if (other.tag == "Player") {
 			if (Reset != null)
 				Reset ();

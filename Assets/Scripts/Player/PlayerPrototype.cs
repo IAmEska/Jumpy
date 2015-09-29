@@ -17,8 +17,8 @@ public class PlayerPrototype : MonoBehaviour
 		JumpingBehaviour
 	}
 
-
-	public Rigidbody2D rigidbody;
+    public PlayerState state;
+    public Rigidbody2D mRigidbody;
 	public PlayerBehaviours selectedBehaviour;
 	public LayerMask groundMask;
 	public float forceY = 400, 
@@ -35,9 +35,8 @@ public class PlayerPrototype : MonoBehaviour
 
 	protected bool isForceAdded = false;
 	protected Vector3 _startPosition;
-	protected SpriteRenderer _renderer;
-	protected PlayerState _state, 
-		_prevState;
+	protected SpriteRenderer _renderer;    
+    protected PlayerState	_prevState;
 
 	protected AbstractPlayerBehaviour _behaviour;
 	protected PlayerBehaviours _prevSelectedBehaviour;
@@ -45,10 +44,9 @@ public class PlayerPrototype : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-
 		_startPosition = transform.position;
 		_renderer = GetComponent<SpriteRenderer> ();
-		rigidbody = GetComponent<Rigidbody2D> ();
+		mRigidbody = GetComponent<Rigidbody2D> ();
 		_halfHeight = _renderer.bounds.size.y / 2;
 		_halfWidth = _renderer.bounds.size.x / 2;
 
@@ -73,10 +71,17 @@ public class PlayerPrototype : MonoBehaviour
 			_behaviour = gameObject.AddComponent (type) as AbstractPlayerBehaviour;
 		}
 
-		switch (_state) {
+		switch (state) {
 		case PlayerState.Idle:
 			//Do Nothing
 			break;
+
+            case PlayerState.Dead:
+                if(_prevState != state)
+                {
+                    transform.Rotate(Vector3.forward, 180);
+                }
+                break;
 
 		case PlayerState.Grounded:
 			_behaviour.GroundedBehaviour ();
@@ -84,8 +89,8 @@ public class PlayerPrototype : MonoBehaviour
 
 		case PlayerState.InAir:
 			_behaviour.InAirBehaviour ();
-			if (rigidbody.velocity.y <= fallingThreshold) {
-				_state = PlayerState.Falling;
+			if (mRigidbody.velocity.y <= fallingThreshold) {
+				state = PlayerState.Falling;
 			}
 			break;
 
@@ -104,7 +109,7 @@ public class PlayerPrototype : MonoBehaviour
 					dist.y -= hY;
 					
 					if (dist.y <= groundedTreshold && dist.y >= groundedNegativeTreshold) {
-						_state = PlayerState.Grounded;
+						state = PlayerState.Grounded;
 					}
 				}
 			}
@@ -118,7 +123,7 @@ public class PlayerPrototype : MonoBehaviour
 		if (transform.position.x > _areaMaxX)
 			transform.position = new Vector3 (_areaMinX, transform.position.y);
 
-		_prevState = _state;
+		_prevState = state;
 		_prevSelectedBehaviour = selectedBehaviour;
 
 	}
@@ -127,20 +132,22 @@ public class PlayerPrototype : MonoBehaviour
 
 	public void SetState (PlayerState state)
 	{
-		_state = state;
+		this.state = state;
 	}
 
 	public void Kill ()
 	{
-		_state = PlayerState.Dead;
+		state = PlayerState.Dead;
 	}
 
 	public void Reset ()
 	{
-		transform.position = _startPosition;
-		if (rigidbody != null)
-			rigidbody.velocity = Vector2.zero;
+        transform.rotation = Quaternion.identity;
+        transform.position = _startPosition;
+		if (mRigidbody != null)
+			mRigidbody.velocity = Vector2.zero;
 
-		_state = PlayerState.Idle;
+                 
+		state = PlayerState.Idle;
 	}
 }

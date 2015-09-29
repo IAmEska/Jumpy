@@ -4,21 +4,19 @@ using System;
 
 public class EnemyFactory : AbstractFactory<Enemy>
 {
+
+
 	#region implemented abstract members of AbstractFactory
-	protected override void SpawnItem ()
+	protected override void SpawnItem (Enemy e)
 	{
-		Enemy e = Instantiate<Enemy> (items [_itemPosition]);
+        //Enemy e = cache.Get(_itemPosition); //Instantiate<Enemy> (items [_itemPosition]);
 		if (e is ITopSpawn) {
 			e.transform.position = new Vector3 (UnityEngine.Random.Range (_minX, _maxX), _positionY);
-			e.transform.parent = transform;
+			
 		} else if (e is IBottomSpawn) {
 			
 		}
 	}
 
-	public override void DestoryItem (Enemy item)
-	{
-
-	}
 	#endregion
 }

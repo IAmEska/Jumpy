@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
 		_spawnPosition.y -= Camera.main.orthographicSize - _playerYOffset;
 		_spawnPosition.z = 0;
 		_playerInstance = Instantiate (player, _spawnPosition, Quaternion.identity) as PlayerPrototype;
-		_camera.followObject = _playerInstance.transform;
+        _camera.player = _playerInstance;
 
 		for (int i=0; i< destructors.Length; i++) {
 			destructors [i].Reset += OnReset;
@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
 				mainMenu.gameObject.SetActive (true);
 			break;
 
-		case GameState.Reset:
+		case GameState.Reset:    
 			_playerInstance.Reset ();
 			levelGenerator.Reset ();
 			_camera.Reset ();
@@ -89,14 +89,20 @@ public class GameManager : MonoBehaviour
 			_playerInstance.SetState (PlayerPrototype.PlayerState.Falling);
 			break;
 		case GameState.Game:
+                if (player.state == PlayerPrototype.PlayerState.Idle)
+            {
+                levelGenerator.SetDeadStatus();
+            }
 			HandleInput ();
 			break;
 		case GameState.Killed:
-			//TODO menu blabla
-			if (_prevState != _state)
-				endMenu.gameObject.SetActive (true);
-			//_state = GameState.Reset;
-			break;
+                //TODO menu blabla
+                if (_prevState != _state)
+                {
+                    endMenu.gameObject.SetActive(true); 
+                }
+            //_state = GameState.Reset;
+            break;
 		}
 
 		_prevState = _state;
@@ -104,8 +110,7 @@ public class GameManager : MonoBehaviour
 
 	protected void HandleInput ()
 	{
-		if (Input.touchCount > 0) {
-			Debug.Log ("I ve got touches");
+		if (Input.touchCount > 0) {            
 			foreach (Touch t in Input.touches) {
 				if (t.phase == TouchPhase.Began) {
 					Vector3 pos = Camera.main.ScreenToWorldPoint (t.position);

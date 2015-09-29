@@ -3,24 +3,28 @@ using System.Collections;
 
 public abstract class AbstractFactory<T> : MonoBehaviour where T : MonoBehaviour {
 
-	public T[] items;
-	
-	protected int _itemPosition;
+    public AbstractCache<T> cache;
+
+    protected int _itemPosition;
 	protected float _minX, _maxX;
 	protected float _positionY;
 
 	void Start () {
-		_itemPosition = -1;
+        cache = GetComponentInChildren<AbstractCache<T>>();
+        _itemPosition = -1;
 	}
 
 	void FixedUpdate () {
-		if (_itemPosition >= 0) {
-			SpawnItem();
+		if (_itemPosition >= 0 && _itemPosition < cache.cacheTypes.Length) {
+            T item = cache.Get(_itemPosition);
+            item.gameObject.SetActive(true);
+            item.transform.parent = transform;
+			SpawnItem(item);
 		}
 		_itemPosition = -1;
 	}
 
-	public void SetBounds(float minX, float maxX)
+	public virtual void SetBounds(float minX, float maxX)
 	{
 		_minX = minX;
 		_maxX = maxX;
@@ -32,7 +36,10 @@ public abstract class AbstractFactory<T> : MonoBehaviour where T : MonoBehaviour
 		_positionY = positionY;
 	}
 
-	public abstract void DestoryItem(T item);
+	public void DestoryItem(T item)
+    {
+        cache.Return(item);
+    }
 
-	protected abstract void SpawnItem();
+	protected abstract void SpawnItem(T item);
 }

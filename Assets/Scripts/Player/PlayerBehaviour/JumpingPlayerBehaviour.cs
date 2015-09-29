@@ -9,7 +9,7 @@ public class JumpingPlayerBehaviour : AbstractPlayerBehaviour
 
 	public override void GroundedBehaviour ()
 	{
-		_playerPrototype.rigidbody.velocity = transform.up * _playerPrototype.forceY;
+		_playerPrototype.mRigidbody.velocity = transform.up * _playerPrototype.forceY;
 		LeftRightMove ();
 		_playerPrototype.SetState (PlayerPrototype.PlayerState.InAir);
 	}
@@ -28,8 +28,8 @@ public class JumpingPlayerBehaviour : AbstractPlayerBehaviour
 	{
 		float x = Input.acceleration.x; //Input.GetAxis ("Horizontal");
 		_lowPassValue = Mathf.Lerp (_lowPassValue, x, _lowPassFilterFactor);
-		float currentY = _playerPrototype.rigidbody.velocity.y;
-		_playerPrototype.rigidbody.velocity = Vector2.right * _playerPrototype.forceX * _lowPassValue + new Vector2 (0, currentY);
+		float currentY = _playerPrototype.mRigidbody.velocity.y;
+		_playerPrototype.mRigidbody.velocity = Vector2.right * _playerPrototype.forceX * _lowPassValue + new Vector2 (0, currentY);
 	}
 
 	#endregion

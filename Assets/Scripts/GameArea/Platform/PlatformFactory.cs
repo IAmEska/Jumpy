@@ -3,7 +3,8 @@ using System.Collections;
 
 public class PlatformFactory : AbstractFactory<Platform> {
 
-	public Platform startPlatform;
+	public StartPlatform startPlatform;
+    
 
 	protected float _offsetX;
 	protected Platform _prevPlatform;
@@ -14,17 +15,25 @@ public class PlatformFactory : AbstractFactory<Platform> {
 		_offsetX = offsetX;
 	}
 
-	public void InstantiateStartPlatform(float starPosY)
+	public StartPlatform InstantiateStartPlatform(float starPosY)
 	{
-		var sp = Instantiate<Platform> (startPlatform);
+		var sp = Instantiate<StartPlatform> (startPlatform);
 		sp.transform.position = new Vector3 (0, starPosY, 0);
 		sp.transform.parent = transform;
+        return sp;
 	}
 
-	#region implemented abstract members of AbstractFactory
-	protected override void SpawnItem ()
+    public override void SetBounds(float minX, float maxX)
+    {
+        base.SetBounds(minX, maxX);
+        MovingPlatform.maxX = maxX;
+        MovingPlatform.minX = minX;
+    }
+
+    #region implemented abstract members of AbstractFactory
+    protected override void SpawnItem (Platform p)
 	{
-		Platform p = Instantiate<Platform> (items[_itemPosition]);
+        //Platform p = cache.Get(_itemPosition);// Instantiate<Platform> (cache.cacheTypes[_itemPosition]);
 		float posX = Random.Range (_minX, _maxX);
 		if (_prevPlatform != null) {
 			if (Mathf.Abs (posX - _prevPlatform.transform.position.x) < _offsetX) {
@@ -42,13 +51,7 @@ public class PlatformFactory : AbstractFactory<Platform> {
 		}
 		p.transform.localScale = new Vector3 (Random.Range (p.minWidth, p.maxWidth), 1, 1);
 		p.transform.position = new Vector3 (posX, _positionY);
-		p.transform.parent = transform;
 		_prevPlatform = p;
-	}
-
-	public override void DestoryItem (Platform item)
-	{
-
 	}
 
 	#endregion
