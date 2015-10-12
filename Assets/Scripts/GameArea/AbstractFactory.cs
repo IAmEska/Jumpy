@@ -30,11 +30,7 @@ public abstract class AbstractFactory<T> : MonoBehaviour where T : MonoBehaviour
 		_maxX = maxX;
 	}
 
-	public void InstantiateItem(int itemPosition, float positionY)
-	{
-		_itemPosition = itemPosition;
-		_positionY = positionY;
-	}
+    public abstract void InstantiateItem(float positionY);
 
 	public void DestoryItem(T item)
     {

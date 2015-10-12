@@ -15,6 +15,7 @@ public abstract class Enemy : MonoBehaviour
 	}
 
 	public int hitsToDie = 1;
+    public Status status;
 
 	protected Rigidbody2D _rigidbody;
 	protected Collider2D _collider;
@@ -22,7 +23,7 @@ public abstract class Enemy : MonoBehaviour
 
 	protected Vector2 _hitFrom;
 	protected int _hitsLeft;
-	protected Status _status, _prevStatus;
+	protected Status  _prevStatus;
 
 	protected float _areaMinX, _areaMaxX;
 	protected float _spriteWidth, _spriteHeight;
@@ -45,7 +46,7 @@ public abstract class Enemy : MonoBehaviour
 
 	void Reset ()
 	{
-		_status = Status.Alive;
+        status = Status.Alive;
 		_hitsLeft = hitsToDie;
 		_rigidbody.velocity = Vector2.zero;
 		_rigidbody.isKinematic = true;
@@ -56,8 +57,8 @@ public abstract class Enemy : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (_prevStatus != _status) {
-			switch (_status) {
+		if (_prevStatus != status) {
+			switch (status) {
 			case Status.Dead:
 				DeadBehaviour ();
 				break;
@@ -67,10 +68,10 @@ public abstract class Enemy : MonoBehaviour
 			}
 		}
 
-		if (_status == Status.Alive)
+		if (status == Status.Alive)
 			AliveBehaviour ();
 
-		_prevStatus = _status;
+		_prevStatus = status;
 	}
 
 	protected abstract void IdleBehaviour ();
@@ -78,9 +79,9 @@ public abstract class Enemy : MonoBehaviour
 	protected abstract void DeadBehaviour ();
 	protected abstract void StartAdditional ();
 
-	public void Hit ()
+	public virtual void Hit ()
 	{
-		if (_hitsLeft > 0) {
+		if (_hitsLeft > 0 || status != Status.Dead) {
 			_hitsLeft = Mathf.Max (0, _hitsLeft - 1);
 			if (_hitsLeft == 0) {
 				_rigidbody.isKinematic = false;
@@ -88,14 +89,14 @@ public abstract class Enemy : MonoBehaviour
 				var pos = transform.position;
 				pos.y -= 1;
 				_hitFrom = pos;
-				_status = Status.Dead;
+                status = Status.Dead;
 			}
 		}
 	}
 
 	void OnTriggerEnter2D (Collider2D other)
 	{
-		if (_status == Status.Alive) {
+		if (status == Status.Alive) {
 			if (other.tag == "Player") {
 				other.GetComponent<PlayerPrototype> ().Kill ();
 			}

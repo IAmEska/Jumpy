@@ -17,15 +17,13 @@ public class GameManager : MonoBehaviour
 	public PlayerPrototype player;
 	public float _playerYOffset;
 	public Destructor[] destructors;
-	public Canvas mainMenu, endMenu;
-	public float touchSize = 1.5f;
-	public LayerMask[] touchLayers;
+	public Canvas mainMenu, endMenu;       
+    public InputManager inputManager;
 
 	protected CameraFollow _camera;
 	protected PlayerPrototype _playerInstance;
 	protected Vector3 _spawnPosition;
-	protected GameState  _state, _prevState;
-	protected int _touchLayersMask;
+	protected GameState  _state, _prevState;          
 
 	// Use this for initialization
 	void Start ()
@@ -44,14 +42,10 @@ public class GameManager : MonoBehaviour
 		for (int i=0; i< destructors.Length; i++) {
 			destructors [i].Reset += OnReset;
 		}
-
-		foreach (LayerMask mask in touchLayers) {
-			_touchLayersMask |= mask.value;
-		}
 	}
 
 	public void OnReset ()
-	{
+	{                       
 		_state = GameState.Killed;
 	}
 
@@ -80,6 +74,7 @@ public class GameManager : MonoBehaviour
 		case GameState.Reset:    
 			_playerInstance.Reset ();
 			levelGenerator.Reset ();
+                inputManager.Reset();
 			_camera.Reset ();
 			_state = GameState.Start;
 			break;
@@ -93,7 +88,7 @@ public class GameManager : MonoBehaviour
             {
                 levelGenerator.SetDeadStatus();
             }
-			HandleInput ();
+                inputManager.HandleInput();
 			break;
 		case GameState.Killed:
                 //TODO menu blabla
@@ -107,32 +102,7 @@ public class GameManager : MonoBehaviour
 
 		_prevState = _state;
 	}
+              
 
-	protected void HandleInput ()
-	{
-		if (Input.touchCount > 0) {            
-			foreach (Touch t in Input.touches) {
-				if (t.phase == TouchPhase.Began) {
-					Vector3 pos = Camera.main.ScreenToWorldPoint (t.position);
-					var pos1 = pos;
-					pos1.x -= touchSize / 2;
-					var pos2 = pos1;
-					pos2.x += touchSize;
-					Debug.DrawLine (pos1, pos2, Color.red, 5);
-					Collider2D[] colliders = Physics2D.OverlapCircleAll (pos, touchSize, _touchLayersMask);
-					foreach (Collider2D collider in colliders) {
-						if (collider.tag == "Enemy") {
-							var enemy = collider.GetComponent<Enemy> ();
-							if (enemy != null) {
-								if (GameSettings.vibration)
-									Handheld.Vibrate ();
-
-								enemy.Hit ();
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+	
 }

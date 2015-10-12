@@ -30,4 +30,10 @@ public class LineyFlyingDropEnemy : LineFlyingEnemy
 			}
 		}
 	}
+
+    public override void Hit()
+    {
+        base.Hit();
+        dropItem.Hit();
+    }
 }

@@ -1,17 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
 
 public class EnemyFactory : AbstractFactory<Enemy>
 {
+    public float edgeXOffset = 1.5f;
 
+    #region implemented abstract members of AbstractFactory
 
-	#region implemented abstract members of AbstractFactory
-	protected override void SpawnItem (Enemy e)
+    public override void InstantiateItem(float positionY)
+    {
+        _positionY = positionY;
+        _itemPosition = Random.Range(0, cache.cacheTypes.Length);
+    }
+
+    protected override void SpawnItem (Enemy e)
 	{
-        //Enemy e = cache.Get(_itemPosition); //Instantiate<Enemy> (items [_itemPosition]);
 		if (e is ITopSpawn) {
-			e.transform.position = new Vector3 (UnityEngine.Random.Range (_minX, _maxX), _positionY);
+			e.transform.position = new Vector3 (Random.Range (_minX + edgeXOffset, _maxX - edgeXOffset), _positionY);
 			
 		} else if (e is IBottomSpawn) {
 			

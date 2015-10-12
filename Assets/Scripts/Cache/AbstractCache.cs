@@ -22,11 +22,10 @@ public abstract class AbstractCache<T> : MonoBehaviour where T : MonoBehaviour {
 				arr[i] = instance;
 			}
 			_dictionary.Add (type.GetType().Name, arr);
-            Debug.Log(typeof(T).Name + " - " + type.GetType().Name);
 		}
 	}
 
-	public void Return(T obj)
+	public virtual void Return(T obj)
 	{
 		var key = obj.GetType ().Name;
         bool cached = false;
@@ -45,11 +44,6 @@ public abstract class AbstractCache<T> : MonoBehaviour where T : MonoBehaviour {
 			    }                                                      
 		    }
         }
-        else
-        {
-            Debug.Log("Return Has no key - " + key);
-        }
-
 
         if (!cached)
 		    Destroy (obj.gameObject);
@@ -75,11 +69,6 @@ public abstract class AbstractCache<T> : MonoBehaviour where T : MonoBehaviour {
             if (obj != null)
                 return obj;
         }
-        else
-        {
-            Debug.Log("GET Has no key - " + key);
-        }
-
 
 		return Instantiate(cacheTypes[cacheTypePosition]);
 	}

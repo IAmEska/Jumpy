@@ -4,7 +4,9 @@ using System.Collections;
 public class PlatformFactory : AbstractFactory<Platform> {
 
 	public StartPlatform startPlatform;
-    
+    public float movingPlatformChance = 15f;
+    public float destroyablePlatformChance = 10f;
+    public bool isAdvancedPlatforms = false;
 
 	protected float _offsetX;
 	protected Platform _prevPlatform;
@@ -30,11 +32,35 @@ public class PlatformFactory : AbstractFactory<Platform> {
         MovingPlatform.minX = minX;
     }
 
+    public override void InstantiateItem(float positionY)
+    {    
+        _itemPosition = 0;
+        _positionY = positionY;
+    }
+
     #region implemented abstract members of AbstractFactory
     protected override void SpawnItem (Platform p)
 	{
-        //Platform p = cache.Get(_itemPosition);// Instantiate<Platform> (cache.cacheTypes[_itemPosition]);
-		float posX = Random.Range (_minX, _maxX);
+
+        p.SetSprite(0);
+        if (isAdvancedPlatforms)
+        { 
+            float movingChance = Random.Range(0, 100);
+            if(movingChance <= movingPlatformChance)
+            {
+                p.gameObject.AddComponent<MovingPlatform>();    
+            } 
+
+
+            float destroyableChance = Random.Range(0, 100);
+            if (destroyableChance <= destroyablePlatformChance)
+            {
+                p.gameObject.AddComponent<DestroyablePlatform>();
+                p.SetSprite(1);
+            }
+        }
+
+        float posX = Random.Range (_minX, _maxX);
 		if (_prevPlatform != null) {
 			if (Mathf.Abs (posX - _prevPlatform.transform.position.x) < _offsetX) {
 				int r = Random.Range (0, 2);

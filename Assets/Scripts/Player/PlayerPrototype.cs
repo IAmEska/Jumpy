@@ -26,12 +26,14 @@ public class PlayerPrototype : MonoBehaviour
 		jumpPositionYSpread = 0.1f, 
 		fallingThreshold = 0.5f,
 		groundedTreshold = 0.2f,
-		groundedNegativeTreshold = -0.15f;
+		groundedNegativeTreshold = -0.15f,
+        halfWidth,
+        halfHeight;           
 
-	protected float _halfHeight, 
-		_halfWidth, 
-		_areaMinX, 
+    protected float _areaMinX, 
 		_areaMaxX;
+
+    
 
 	protected bool isForceAdded = false;
 	protected Vector3 _startPosition;
@@ -47,8 +49,8 @@ public class PlayerPrototype : MonoBehaviour
 		_startPosition = transform.position;
 		_renderer = GetComponent<SpriteRenderer> ();
 		mRigidbody = GetComponent<Rigidbody2D> ();
-		_halfHeight = _renderer.bounds.size.y / 2;
-		_halfWidth = _renderer.bounds.size.x / 2;
+		halfHeight = _renderer.bounds.size.y / 2;
+		halfWidth = _renderer.bounds.size.x / 2;
 
 		float sizeX = Camera.main.orthographicSize * Screen.width / Screen.height;
 		_areaMinX = Camera.main.transform.position.x - sizeX;
@@ -97,9 +99,9 @@ public class PlayerPrototype : MonoBehaviour
 		case PlayerState.Falling:
 			_behaviour.FallingBehaivour ();
 			var actualPosition = transform.position;
-			actualPosition.y -= _halfHeight - jumpPositionYSpread;
+			actualPosition.y -= halfHeight - jumpPositionYSpread;
 
-			var hit = Physics2D.CircleCast (actualPosition, _halfWidth, -transform.up, 1, groundMask);
+			var hit = Physics2D.CircleCast (actualPosition, halfWidth, -transform.up, 1, groundMask);
 			if (hit.transform != null) {
 				Vector3 dist = actualPosition - hit.transform.position;
 				

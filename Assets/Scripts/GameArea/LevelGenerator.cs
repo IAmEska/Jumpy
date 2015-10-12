@@ -13,7 +13,7 @@ public class LevelGenerator : MonoBehaviour
 	public float offsetY, offsetX;
 	public float coinChance = 20;
 	public float enemyChance = 5;
-    public float movingPlatformChance = 5f;
+    public float movingPlatformChance = 50f;
 	public float minPlatformWidth, maxPlatformWidth;
 
 	public int maxPlatformAtOnce, minPlatformAtOnce;
@@ -70,9 +70,16 @@ public class LevelGenerator : MonoBehaviour
 		if (generate) {
 			if (_currentPositionY < Camera.main.transform.position.y + Camera.main.orthographicSize) {
 				GeneratePlatform ();
-				GenerateCoin ();
-				GenerateEnemy ();
-				_currentPositionY += offsetY;
+                if (_currentPositionY > _startPosY + 2 * Camera.main.orthographicSize)
+                {
+                    if (!platformFactory.isAdvancedPlatforms)
+                        platformFactory.isAdvancedPlatforms = true;
+
+                    GenerateCoin ();
+				    GenerateEnemy ();
+
+                }
+                _currentPositionY += offsetY;
 			}
 		}
 	}
@@ -81,6 +88,8 @@ public class LevelGenerator : MonoBehaviour
     {                           
         if(_startPlatformRef != null)
             _startPlatformRef.GetComponent<Collider2D>().isTrigger = true;
+
+        platformFactory.isAdvancedPlatforms = false;
     }
 
     public void DestroyObject(GameObject item)
@@ -134,30 +143,23 @@ public class LevelGenerator : MonoBehaviour
 	}
 
 	protected void GeneratePlatform ()
-	{
-        int platformType = 0;
-        if(Random.Range(0,100) <= movingPlatformChance)
-        {
-            platformType = 1;
-        }
-
-		platformFactory.InstantiateItem (platformType, _currentPositionY);
+	{                                         
+		platformFactory.InstantiateItem (_currentPositionY);
 	}
 
 	protected void GenerateCoin ()
 	{
 		int rP = Random.Range (0, 100);
 		if (rP <= coinChance) {
-			collectibleFactory.InstantiateItem(0, _currentPositionY + offsetY / 2);
+			collectibleFactory.InstantiateItem(_currentPositionY + offsetY / 2);
 		}
 	}
 
 	protected void GenerateEnemy ()
 	{
 		int rE = Random.Range (0, 100);
-		if (rE <= enemyChance) {
-			int eT = Random.Range (0, enemyFactory.cache.cacheTypes.Length);
-			enemyFactory.InstantiateItem (eT, _currentPositionY + offsetY / 2);
+		if (rE <= enemyChance) {    
+			enemyFactory.InstantiateItem (_currentPositionY + offsetY / 2);
 		}
 	}
 }
