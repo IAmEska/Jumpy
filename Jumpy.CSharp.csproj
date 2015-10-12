@@ -71,12 +71,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Jumpy.CSharp.Plugins.csproj">
-      <Project>{B7FD8890-EB43-337E-021A-46831FB85B85}</Project>
-      <Name>Jumpy.CSharp.Plugins</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="Assets\Scripts\Ads\AdsManager.cs" />
     <Compile Include="Assets\Scripts\Cache\AbstractCache.cs" />
     <Compile Include="Assets\Scripts\Cache\Types\CollectibleCache.cs" />
     <Compile Include="Assets\Scripts\Cache\Types\EnemyCache.cs" />
@@ -111,21 +106,6 @@
     <Compile Include="Assets\Scripts\Projectile.cs" />
     <Compile Include="Assets\Scripts\Spawn\IBottomSpawn.cs" />
     <Compile Include="Assets\Scripts\Spawn\ITopSpawn.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\Plugins\Android\unityads\AndroidManifest.xml" />
-    <None Include="Assets\Plugins\Android\unityads\build.xml" />
-    <None Include="Assets\Plugins\Android\unityads\proguard-project.txt" />
-    <None Include="Assets\Plugins\Android\unityads\res\drawable\unityads_background_button_pause.xml" />
-    <None Include="Assets\Plugins\Android\unityads\res\drawable\unityads_icon_play.xml" />
-    <None Include="Assets\Plugins\Android\unityads\res\drawable\unityads_icon_speaker_base.xml" />
-    <None Include="Assets\Plugins\Android\unityads\res\drawable\unityads_icon_speaker_triangle.xml" />
-    <None Include="Assets\Plugins\Android\unityads\res\drawable\unityads_icon_speaker_waves.xml" />
-    <None Include="Assets\Plugins\Android\unityads\res\layout\unityads_button_audio_toggle.xml" />
-    <None Include="Assets\Plugins\Android\unityads\res\layout\unityads_button_pause.xml" />
-    <None Include="Assets\Plugins\Android\unityads\res\layout\unityads_view_video_paused.xml" />
-    <None Include="Assets\Plugins\Android\unityads\res\layout\unityads_view_video_play.xml" />
-    <None Include="Assets\Plugins\Android\unityads\res\values\strings.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

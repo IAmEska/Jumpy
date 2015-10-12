@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
 	public Destructor[] destructors;
 	public Canvas mainMenu, endMenu;       
     public InputManager inputManager;
+    public AdsManager adsManager;
 
 	protected CameraFollow _camera;
 	protected PlayerPrototype _playerInstance;
@@ -94,7 +95,8 @@ public class GameManager : MonoBehaviour
                 //TODO menu blabla
                 if (_prevState != _state)
                 {
-                    endMenu.gameObject.SetActive(true); 
+                    endMenu.gameObject.SetActive(true);
+                    adsManager.ShowAd();
                 }
             //_state = GameState.Reset;
             break;

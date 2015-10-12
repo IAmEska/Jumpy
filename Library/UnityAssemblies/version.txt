@@ -7,18 +7,3 @@ F:/Unity3d/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.d
 F:/Unity3d/Editor/Data/Managed/UnityEditor.dll
 F:/Unity3d/Editor/Data\Managed/Mono.Cecil.dll
 F:/Unity3d/Editor/Data/PlaybackEngines/iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll
-F:/Unity3d/Editor/Data/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll
-F:/Unity3d/Editor/Data/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll
-F:/Unity3d/Editor/Data/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll
-F:/Unity3d/Editor/Data/Managed/UnityEditor.Graphs.dll
-F:\Unity3d\Editor\Data\PlaybackEngines\androidplayer/UnityEditor.Android.Extensions.dll
-F:/Unity3d/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
-F:\Unity3d\Editor\Data\PlaybackEngines\wp8support/UnityEditor.WP8.Extensions.dll
-F:\Unity3d\Editor\Data\PlaybackEngines\metrosupport/UnityEditor.Metro.Extensions.dll
-F:\Unity3d\Editor\Data\PlaybackEngines\TizenPlayer/UnityEditor.Tizen.Extensions.dll
-F:\Unity3d\Editor\Data\PlaybackEngines\stvplayer/UnityEditor.SamsungTV.Extensions.dll
-F:\Unity3d\Editor\Data\PlaybackEngines\webglsupport/UnityEditor.WebGL.Extensions.dll
-F:\Unity3d\Editor\Data\PlaybackEngines\linuxstandalonesupport/UnityEditor.LinuxStandalone.Extensions.dll
-F:\Unity3d\Editor\Data\PlaybackEngines\windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll
-F:\Unity3d\Editor\Data\PlaybackEngines\macstandalonesupport/UnityEditor.OSXStandalone.Extensions.dll
-C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\2015\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll
