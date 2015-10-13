@@ -71,6 +71,31 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\GoogleMobileAds\Api\AdFailedToLoadEventArgs.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\AdPosition.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\AdRequest.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\AdSize.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\BannerView.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\Gender.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\IInAppPurchaseHandler.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\IInAppPurchaseResult.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Api\InterstitialAd.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\DummyClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\IAdListener.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\IGoogleMobileAdsBannerClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\IGoogleMobileAdsInterstitialClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Common\IInAppPurchaseListener.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\Android\AdListener.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\Android\AndroidBannerClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\Android\AndroidInterstitialClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\Android\InAppPurchaseListener.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\Android\InAppPurchaseResult.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\Android\Utils.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\GoogleMobileAdsClientFactory.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\iOS\Externs.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\iOS\IOSBannerClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\iOS\IOSInterstitialClient.cs" />
+    <Compile Include="Assets\GoogleMobileAds\Platforms\iOS\MonoPInvokeCallbackAttribute.cs" />
     <Compile Include="Assets\Scripts\Ads\AdsManager.cs" />
     <Compile Include="Assets\Scripts\Cache\AbstractCache.cs" />
     <Compile Include="Assets\Scripts\Cache\Types\CollectibleCache.cs" />
@@ -106,6 +131,9 @@
     <Compile Include="Assets\Scripts\Projectile.cs" />
     <Compile Include="Assets\Scripts\Spawn\IBottomSpawn.cs" />
     <Compile Include="Assets\Scripts\Spawn\ITopSpawn.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Plugins\Android\GoogleMobileAdsPlugin\AndroidManifest.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

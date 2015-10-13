@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
 	public PlayerPrototype player;
 	public float _playerYOffset;
 	public Destructor[] destructors;
-	public Canvas mainMenu, endMenu;       
+    public Canvas mainMenu;     
     public InputManager inputManager;
     public AdsManager adsManager;
 
@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour
 	{
 		_state = GameState.MainMenu;
 		mainMenu.gameObject.SetActive (true);
-		endMenu.gameObject.SetActive (false);
 
 		_camera = Camera.main.GetComponent<CameraFollow> ();
 		_spawnPosition = _camera.transform.position;
@@ -54,13 +53,7 @@ public class GameManager : MonoBehaviour
 	{
 		_state = GameState.Reset;
 		mainMenu.gameObject.SetActive (false);
-	}
-
-	public void OnResetGame ()
-	{
-		_state = GameState.Reset;
-		endMenu.gameObject.SetActive (false);
-	}
+	}           
 
 	// Update is called once per frame
 	void FixedUpdate ()
@@ -95,7 +88,7 @@ public class GameManager : MonoBehaviour
                 //TODO menu blabla
                 if (_prevState != _state)
                 {
-                    endMenu.gameObject.SetActive(true);
+                    mainMenu.gameObject.SetActive(true);
                     adsManager.ShowAd();
                 }
             //_state = GameState.Reset;
