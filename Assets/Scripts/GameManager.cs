@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
 		_playerInstance = Instantiate (player, _spawnPosition, Quaternion.identity) as PlayerPrototype;
         _camera.player = _playerInstance;
 
+		adsManager.CreateAdBanner ();
+
 		for (int i=0; i< destructors.Length; i++) {
 			destructors [i].Reset += OnReset;
 		}
@@ -70,6 +72,7 @@ public class GameManager : MonoBehaviour
 			levelGenerator.Reset ();
                 inputManager.Reset();
 			_camera.Reset ();
+			adsManager.HideAd();
 			_state = GameState.Start;
 			break;
 		case GameState.Start:
