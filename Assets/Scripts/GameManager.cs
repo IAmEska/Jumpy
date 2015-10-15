@@ -20,11 +20,13 @@ public class GameManager : MonoBehaviour
     public Canvas mainMenu;     
     public InputManager inputManager;
     public AdsManager adsManager;
+    public UnityEngine.UI.Text scoreBoard;
 
 	protected CameraFollow _camera;
 	protected PlayerPrototype _playerInstance;
 	protected Vector3 _spawnPosition;
-	protected GameState  _state, _prevState;          
+	protected GameState  _state, _prevState;
+    protected int _maxPlayerPositionY;  
 
 	// Use this for initialization
 	void Start ()
@@ -47,7 +49,8 @@ public class GameManager : MonoBehaviour
 	}
 
 	public void OnReset ()
-	{                       
+	{
+        scoreBoard.text = "" + _maxPlayerPositionY;        
 		_state = GameState.Killed;
 	}
 
@@ -81,19 +84,25 @@ public class GameManager : MonoBehaviour
 			_playerInstance.SetState (PlayerPrototype.PlayerState.Falling);
 			break;
 		case GameState.Game:
-                if (player.state == PlayerPrototype.PlayerState.Idle)
+            if (_playerInstance.state == PlayerPrototype.PlayerState.Idle)
             {
                 levelGenerator.SetDeadStatus();
             }
-                inputManager.HandleInput();
+
+            if((int)_playerInstance.transform.position.y > _maxPlayerPositionY)
+            {
+                _maxPlayerPositionY = (int)_playerInstance.transform.position.y;
+                scoreBoard.text = "" + _maxPlayerPositionY;
+            }
+            inputManager.HandleInput();
 			break;
 		case GameState.Killed:
-                //TODO menu blabla
-                if (_prevState != _state)
-                {
-                    mainMenu.gameObject.SetActive(true);
-                    adsManager.ShowAd();
-                }
+            //TODO menu blabla
+            if (_prevState != _state)
+            {
+                mainMenu.gameObject.SetActive(true);
+                adsManager.ShowAd();
+            }
             //_state = GameState.Reset;
             break;
 		}
