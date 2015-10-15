@@ -4,6 +4,7 @@ F:/Unity3d/Editor/Data/Managed/UnityEngine.dll
 F:/Unity3d/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll
 F:/Unity3d/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll
 F:/Unity3d/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll
+F:/Unity3d/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll
 F:/Unity3d/Editor/Data/Managed/UnityEditor.dll
 F:/Unity3d/Editor/Data\Managed/Mono.Cecil.dll
 F:/Unity3d/Editor/Data/PlaybackEngines/iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll
