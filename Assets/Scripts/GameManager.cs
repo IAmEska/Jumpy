@@ -20,16 +20,22 @@ public class GameManager : MonoBehaviour
     public Canvas mainMenu;     
     public InputManager inputManager;
     public AdsManager adsManager;
+    public UnityEngine.UI.Text scoreBoard;
 
 	protected CameraFollow _camera;
 	protected PlayerPrototype _playerInstance;
 	protected Vector3 _spawnPosition;
-	protected GameState  _state, _prevState;          
+	protected GameState  _state, _prevState;
+    protected int _maxPlayerPositionY;
+    protected GameServiceManager _gameServiceManager;
 
 	// Use this for initialization
 	void Start ()
 	{
-		_state = GameState.MainMenu;
+        _gameServiceManager = GetComponent<GameServiceManager>();
+        _gameServiceManager.SignIn();
+
+        _state = GameState.MainMenu;
 		mainMenu.gameObject.SetActive (true);
 
 		_camera = Camera.main.GetComponent<CameraFollow> ();
@@ -47,7 +53,8 @@ public class GameManager : MonoBehaviour
 	}
 
 	public void OnReset ()
-	{                       
+	{
+        scoreBoard.text = "" + _maxPlayerPositionY;        
 		_state = GameState.Killed;
 	}
 
@@ -81,19 +88,26 @@ public class GameManager : MonoBehaviour
 			_playerInstance.SetState (PlayerPrototype.PlayerState.Falling);
 			break;
 		case GameState.Game:
-                if (player.state == PlayerPrototype.PlayerState.Idle)
+            if (_playerInstance.state == PlayerPrototype.PlayerState.Idle)
             {
                 levelGenerator.SetDeadStatus();
             }
-                inputManager.HandleInput();
+
+            if((int)_playerInstance.transform.position.y > _maxPlayerPositionY)
+            {    
+                _maxPlayerPositionY = (int)_playerInstance.transform.position.y;
+                _gameServiceManager.SetScore(_maxPlayerPositionY);
+                scoreBoard.text = "" + _maxPlayerPositionY;
+            }
+            inputManager.HandleInput();
 			break;
 		case GameState.Killed:
-                //TODO menu blabla
-                if (_prevState != _state)
-                {
-                    mainMenu.gameObject.SetActive(true);
-                    adsManager.ShowAd();
-                }
+            //TODO menu blabla
+            if (_prevState != _state)
+            {
+                mainMenu.gameObject.SetActive(true);
+                adsManager.ShowAd();
+            }
             //_state = GameState.Reset;
             break;
 		}
