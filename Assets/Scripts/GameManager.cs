@@ -26,12 +26,16 @@ public class GameManager : MonoBehaviour
 	protected PlayerPrototype _playerInstance;
 	protected Vector3 _spawnPosition;
 	protected GameState  _state, _prevState;
-    protected int _maxPlayerPositionY;  
+    protected int _maxPlayerPositionY;
+    protected GameServiceManager _gameServiceManager;
 
 	// Use this for initialization
 	void Start ()
 	{
-		_state = GameState.MainMenu;
+        _gameServiceManager = GetComponent<GameServiceManager>();
+        _gameServiceManager.SignIn();
+
+        _state = GameState.MainMenu;
 		mainMenu.gameObject.SetActive (true);
 
 		_camera = Camera.main.GetComponent<CameraFollow> ();
@@ -90,8 +94,9 @@ public class GameManager : MonoBehaviour
             }
 
             if((int)_playerInstance.transform.position.y > _maxPlayerPositionY)
-            {
+            {    
                 _maxPlayerPositionY = (int)_playerInstance.transform.position.y;
+                _gameServiceManager.SetScore(_maxPlayerPositionY);
                 scoreBoard.text = "" + _maxPlayerPositionY;
             }
             inputManager.HandleInput();
