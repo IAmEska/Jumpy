@@ -22,8 +22,9 @@ public class AdsManager : MonoBehaviour {
 		// Create an empty ad request.
 		AdRequest request = new AdRequest.Builder()
 			.AddTestDevice(AdRequest.TestDeviceSimulator)
-				.AddTestDevice("")
-				.TagForChildDirectedTreatment(false)
+				.AddTestDevice("DAD85FB8131A8028C5BC8470F9B651D5")
+                .AddTestDevice("275D5A541089283E92354C982964EC8F")
+                .TagForChildDirectedTreatment(false)
 				.Build();
 		
 		// Load the banner with the request.

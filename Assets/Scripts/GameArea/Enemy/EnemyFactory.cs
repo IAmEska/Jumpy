@@ -4,6 +4,7 @@ using System.Collections;
 public class EnemyFactory : AbstractFactory<Enemy>
 {
     public float edgeXOffset = 1.5f;
+                           
 
     #region implemented abstract members of AbstractFactory
 

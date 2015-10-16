@@ -31,13 +31,7 @@ public class GameManager : MonoBehaviour
 
 	// Use this for initialization
 	void Start ()
-	{
-        
-        _gameServiceManager = GetComponent<GameServiceManager>();
-        _gameServiceManager.Init();
-        _gameServiceManager.SignIn();
-
-        _state = GameState.MainMenu;
+	{_state = GameState.MainMenu;
 		mainMenu.gameObject.SetActive (true);
 
 		_camera = Camera.main.GetComponent<CameraFollow> ();
@@ -52,7 +46,11 @@ public class GameManager : MonoBehaviour
 		for (int i=0; i< destructors.Length; i++) {
 			destructors [i].Reset += OnReset;
 		}
-	}
+
+        _gameServiceManager = GetComponent<GameServiceManager>();
+        _gameServiceManager.Init();
+        _gameServiceManager.SignIn();
+    }
 
 	public void OnReset ()
 	{

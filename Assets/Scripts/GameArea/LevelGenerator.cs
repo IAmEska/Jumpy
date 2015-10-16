@@ -16,6 +16,8 @@ public class LevelGenerator : MonoBehaviour
     public float movingPlatformChance = 50f;
 	public float minPlatformWidth, maxPlatformWidth;
 
+
+
 	public int maxPlatformAtOnce, minPlatformAtOnce;
 
 	protected float _startPosY, _currentPositionY;

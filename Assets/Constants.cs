@@ -24,9 +24,13 @@
 
 public static class Constants
 {
-        public const string achievement_firstten = "CgkIhc_Q_OkGEAIQAw"; // <GPGSID>
-        public const string package_name = "gg.iameska.jump"; // <GPGSID>
         public const string event_testovaci_udalost = "CgkIhc_Q_OkGEAIQAg"; // <GPGSID>
+        public const string achievement_treti = "CgkIhc_Q_OkGEAIQBQ"; // <GPGSID>
+        public const string achievement_firstten = "CgkIhc_Q_OkGEAIQAw"; // <GPGSID>
+        public const string achievement_druhy = "CgkIhc_Q_OkGEAIQBA"; // <GPGSID>
+        public const string package_name = "gg.iameska.jump"; // <GPGSID>
+        public const string achievement_ctvrty = "CgkIhc_Q_OkGEAIQBg"; // <GPGSID>
+        public const string achievement_paty = "CgkIhc_Q_OkGEAIQBw"; // <GPGSID>
 
 }
 
