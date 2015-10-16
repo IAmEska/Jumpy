@@ -32,7 +32,9 @@ public class GameManager : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+        
         _gameServiceManager = GetComponent<GameServiceManager>();
+        _gameServiceManager.Init();
         _gameServiceManager.SignIn();
 
         _state = GameState.MainMenu;
