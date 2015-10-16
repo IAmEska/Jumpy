@@ -5,16 +5,15 @@ using GooglePlayGames;
 public class GameServiceManager : MonoBehaviour {
 
     const int TEST_ACHIEVMENT_SCORE = 10;
-
-    protected bool _isAuthenticated;
+                                       
     protected int _score;
     
     public void SignIn()
     {
         Debug.Log("SignIn Called");
-        Social.localUser.Authenticate((bool success) => {
-            _isAuthenticated = success;
-            if (_isAuthenticated == true)
+
+        PlayGamesPlatform.Instance.Authenticate((bool success) => {
+            if (success)
             {
                 Debug.Log("logged");
                 string userInfo = "Username: " + Social.localUser.userName +
@@ -33,9 +32,12 @@ public class GameServiceManager : MonoBehaviour {
         if(_score != score)
         { 
             _score = score;
-            if(TEST_ACHIEVMENT_SCORE == score)
-            {
-                ShowTestAchievement();
+            if(PlayGamesPlatform.Instance.IsAuthenticated())
+            { 
+                if(TEST_ACHIEVMENT_SCORE == score)
+                {
+                    ShowTestAchievement();
+                }
             }
         }
     }
@@ -43,7 +45,7 @@ public class GameServiceManager : MonoBehaviour {
     protected void ShowTestAchievement()
     {
         Debug.Log("calledAchievement");
-        Social.Active.ReportProgress(Constants.achievement_firstten, 10.0f, (bool success) =>
+        PlayGamesPlatform.Instance.ReportProgress(Constants.achievement_firstten, 10.0f, (bool success) =>
         {
             if (success)
             {
@@ -54,7 +56,7 @@ public class GameServiceManager : MonoBehaviour {
     }
 
     public void Init() 
-    {
+    {            
         PlayGamesPlatform.Activate();
     }
 }
