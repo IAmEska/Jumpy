@@ -2,8 +2,7 @@
 using System.Collections;
 
 public class JumpingPlayerBehaviour : AbstractPlayerBehaviour
-{
-
+{                           
 
 	#region implemented abstract members of AbstractPlayerBehaviour
 
@@ -16,23 +15,34 @@ public class JumpingPlayerBehaviour : AbstractPlayerBehaviour
 
 	public override void InAirBehaviour ()
 	{
+        CheckDoubleJump();
 		LeftRightMove ();
 	}
 
 	public override void FallingBehaivour ()
 	{
-		LeftRightMove ();
+        CheckDoubleJump();
+        LeftRightMove ();
 	}
 
-	protected void LeftRightMove ()
-	{
-		float x = Input.acceleration.x; //Input.GetAxis ("Horizontal");
-		_lowPassValue = Mathf.Lerp (_lowPassValue, x, _lowPassFilterFactor);
+    protected void LeftRightMove()
+    {
+        float x = Input.acceleration.x; //Input.GetAxis ("Horizontal");
+        _lowPassValue = Mathf.Lerp(_lowPassValue, x, _lowPassFilterFactor);
 		float currentY = _playerPrototype.mRigidbody.velocity.y;
-		_playerPrototype.mRigidbody.velocity = Vector2.right * _playerPrototype.forceX * _lowPassValue + new Vector2 (0, currentY);
+		_playerPrototype.mRigidbody.velocity = Vector2.right * _playerPrototype.forceX * GameSettings.sensitivity * _lowPassValue + new Vector2 (0, currentY);
 	}
 
 	#endregion
 
+
+    protected void CheckDoubleJump()
+    {
+        if(doDoubleJump)
+        {
+            doDoubleJump = false;
+            _playerPrototype.mRigidbody.velocity = transform.up * _playerPrototype.forceY;
+        }
+    }
 
 }

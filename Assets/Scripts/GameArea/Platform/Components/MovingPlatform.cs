@@ -12,12 +12,6 @@ public class MovingPlatform : MonoBehaviour {
     public float offsetX = 1f;
 
     protected int direction = 1;
-    protected Platform _platform;
-
-    void Awake()
-    {
-        _platform = GetComponent<Platform>();    
-    }
 
     void FixedUpdate()
     {

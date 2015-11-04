@@ -24,7 +24,7 @@ public class LineyFlyingDropEnemy : LineFlyingEnemy
 		base.AliveBehaviour ();
 		if (!_isDropped) {
 			if (Time.timeSinceLevelLoad >= _dropTime) {
-				_isDropped = false;
+				_isDropped = true;
 				dropItem.transform.parent = transform.parent;
 				dropItem.GetComponent<Rigidbody2D> ().isKinematic = false;
 			}

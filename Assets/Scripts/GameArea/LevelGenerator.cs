@@ -4,25 +4,21 @@ using System.Collections;
 public class LevelGenerator : MonoBehaviour
 {
 
-	public EnemyFactory enemyFactory;
-	public CollectibleFactory collectibleFactory;
-	public PlatformFactory platformFactory;
+	//public EnemyFactory enemyFactory;
+	//public CollectibleFactory collectibleFactory;
+
+    public FactoryTypeInfo[] factories;
 
 	public bool generate = false;
 
-	public float offsetY, offsetX;
-	public float coinChance = 20;
-	public float enemyChance = 5;
-    public float movingPlatformChance = 50f;
-	public float minPlatformWidth, maxPlatformWidth;
-
-
-
-	public int maxPlatformAtOnce, minPlatformAtOnce;
+	public float offsetY;                  
 
 	protected float _startPosY, _currentPositionY;
 	protected float _areaMinX, _areaMaxX;
 	protected StartPlatform _startPlatformRef;
+    protected PlatformFactory _platformFactory;
+
+    public bool isAllCleared = false;
 
     protected bool _initStartPlatform, _isFirstRun;
 
@@ -39,23 +35,31 @@ public class LevelGenerator : MonoBehaviour
 		_areaMinX = Camera.main.transform.position.x - sizeX;
 		_areaMaxX = Camera.main.transform.position.x + sizeX;
 
-		platformFactory.SetBounds (_areaMinX, _areaMaxX);
-		enemyFactory.SetBounds (_areaMinX, _areaMaxX);
-		platformFactory.SetBounds (_areaMinX, _areaMaxX);
-		platformFactory.SetOffset (offsetX);
+        foreach(FactoryTypeInfo fti in factories)
+        {
+            fti.factory.SetBounds(_areaMinX, _areaMaxX);
+            if(fti.factory is PlatformFactory)
+            {
+                _platformFactory = fti.factory as PlatformFactory;
+            }
+        }
 	}
 
 	public void Reset ()
 	{
+        _platformFactory.Reset();
 		_currentPositionY = _startPosY + offsetY;
+        Debug.Log("offset:" + _currentPositionY);
         generate = false;
         if (!_isFirstRun)
         { 
 		    _initStartPlatform = true;
+            isAllCleared = false;
             ClearAll();
         }
         else
         {
+            isAllCleared = true;
             _isFirstRun = false;
         }
               
@@ -65,24 +69,32 @@ public class LevelGenerator : MonoBehaviour
 	void FixedUpdate ()
 	{
 		if (_initStartPlatform) {
-            _startPlatformRef = platformFactory.InstantiateStartPlatform(_startPosY);
+            _startPlatformRef = _platformFactory.InstantiateStartPlatform(_startPosY);
 			_initStartPlatform = false;
 		}
 
 		if (generate) {
-			if (_currentPositionY < Camera.main.transform.position.y + Camera.main.orthographicSize) {
-				GeneratePlatform ();
-                if (_currentPositionY > _startPosY + 2 * Camera.main.orthographicSize)
+            if (_currentPositionY < Camera.main.transform.position.y + Camera.main.orthographicSize)
+            {
+                _platformFactory.isAdvancedPlatforms = true;
+
+                foreach (FactoryTypeInfo fti in factories)
                 {
-                    if (!platformFactory.isAdvancedPlatforms)
-                        platformFactory.isAdvancedPlatforms = true;
+                    float position = _currentPositionY;
+                    if (fti.addOffset)
+                        position += offsetY / 2;
 
-                    GenerateCoin ();
-				    GenerateEnemy ();
-
+                    if(fti.generateFromStart)
+                    {
+                        fti.factory.InstantiateItem(position);
+                    }
+                    else if(_currentPositionY > _startPosY + 2 * Camera.main.orthographicSize)
+                    {
+                        fti.factory.InstantiateItem(position);
+                    }
                 }
-                _currentPositionY += offsetY;
-			}
+                _currentPositionY += 2;
+            }
 		}
 	}
 
@@ -91,77 +103,49 @@ public class LevelGenerator : MonoBehaviour
         if(_startPlatformRef != null)
             _startPlatformRef.GetComponent<Collider2D>().isTrigger = true;
 
-        platformFactory.isAdvancedPlatforms = false;
+        generate = false;
+        _currentPositionY = _startPosY + offsetY;
+        _platformFactory.isAdvancedPlatforms = false;
     }
 
     public void DestroyObject(GameObject item)
     {
-        Enemy e = item.GetComponent<Enemy>();
-        if(e != null)
+        bool destroyed = false;
+        foreach(FactoryTypeInfo fti in factories)
         {
-            enemyFactory.DestoryItem(e);
-        }
-        else
-        {
-            Platform p = item.GetComponent<Platform>();
-            if(p != null)
+            Component c = item.GetComponent(fti.factory.ItemType());
+            if(c != null)
             {
-                platformFactory.DestoryItem(p);
-            }
-            else
-            {
-                Collectible c = item.GetComponent<Collectible>();
-                if(c != null)
-                {
-                    collectibleFactory.DestoryItem(c);
-                }
-                else
-                {
-                    Destroy(item);
-                }
+                fti.factory.DestoryItem(c);
+                destroyed = true;
+                break;
             }
         }
+
+        if(!destroyed)
+            Destroy(item);      
     }
 
 	protected void ClearAll ()
 	{
-		Clear (platformFactory);
-		Clear (enemyFactory);
-		Clear (collectibleFactory);
-	}
+        foreach(FactoryTypeInfo fti in factories)
+        {
+            Clear(fti.factory);
+        }
+        isAllCleared = true;
+    }
 
-	protected void Clear<T> (AbstractFactory<T> factory) where T : MonoBehaviour
+	protected void Clear (Factory factory)
 	{
 		if (factory.transform.childCount > 0) {
 			for (int i=0; i< factory.transform.childCount; i++) {
 				var t = factory.transform.GetChild (i);
 				if(t.gameObject.layer == factory.gameObject.layer)
 				{
-                    T rt = t.GetComponent<T>();
+                    Component rt = t.GetComponent(factory.ItemType());
                     factory.DestoryItem(rt);
 				}
 			}
 		}
-	}
-
-	protected void GeneratePlatform ()
-	{                                         
-		platformFactory.InstantiateItem (_currentPositionY);
-	}
-
-	protected void GenerateCoin ()
-	{
-		int rP = Random.Range (0, 100);
-		if (rP <= coinChance) {
-			collectibleFactory.InstantiateItem(_currentPositionY + offsetY / 2);
-		}
-	}
-
-	protected void GenerateEnemy ()
-	{
-		int rE = Random.Range (0, 100);
-		if (rE <= enemyChance) {    
-			enemyFactory.InstantiateItem (_currentPositionY + offsetY / 2);
-		}
-	}
+	}        
 }

@@ -4,6 +4,9 @@ using System.Collections;
 [RequireComponent(typeof(AudioSource))]
 public abstract class Collectible : MonoBehaviour
 {
+    public AudioClip audioClip;
+    public CollectibleManager collectibleManager;
+
 	protected AudioSource _audioSource;
 
 	void Start ()
@@ -18,10 +21,12 @@ public abstract class Collectible : MonoBehaviour
 				Handheld.Vibrate ();
 
 			if (GameSettings.soundFx) {
-				_audioSource.PlayOneShot (_audioSource.clip, GameSettings.soundFxVolume);
-			}
+                Debug.Log("DING");
+                _audioSource.volume = 1;
+				_audioSource.PlayOneShot (audioClip, GameSettings.soundFxVolume);
+            }
 
-			Destroy (gameObject);
-		}
+            collectibleManager.AddCollectible(this);
+        }
 	}
 }

@@ -33,16 +33,18 @@ public class PlayerPrototype : MonoBehaviour
     protected float _areaMinX, 
 		_areaMaxX;
 
-    
 
-	protected bool isForceAdded = false;
+
+    protected bool isForceAdded = false,
+        _canDoubleJump = true,
+        _doDoubleJump = false;
 	protected Vector3 _startPosition;
 	protected SpriteRenderer _renderer;    
     protected PlayerState	_prevState;
 
 	protected AbstractPlayerBehaviour _behaviour;
 	protected PlayerBehaviours _prevSelectedBehaviour;
-
+    
 	// Use this for initialization
 	void Start ()
 	{
@@ -73,7 +75,13 @@ public class PlayerPrototype : MonoBehaviour
 			_behaviour = gameObject.AddComponent (type) as AbstractPlayerBehaviour;
 		}
 
-		switch (state) {
+        if (_doDoubleJump)
+        {
+            _doDoubleJump = false;
+            _behaviour.doDoubleJump = true;
+        }
+
+        switch (state) {
 		case PlayerState.Idle:
 			//Do Nothing
 			break;
@@ -86,6 +94,7 @@ public class PlayerPrototype : MonoBehaviour
                 break;
 
 		case PlayerState.Grounded:
+            _canDoubleJump = true;
 			_behaviour.GroundedBehaviour ();
 			break;
 
@@ -130,9 +139,16 @@ public class PlayerPrototype : MonoBehaviour
 
 	}
 
+    public void DoubleJump()
+    {
+         if(_canDoubleJump)
+        {
+            _doDoubleJump = true;
+            _canDoubleJump = false;
+        }
+    }                                   
 
-
-	public void SetState (PlayerState state)
+    public void SetState (PlayerState state)
 	{
 		this.state = state;
 	}
@@ -149,7 +165,8 @@ public class PlayerPrototype : MonoBehaviour
 		if (mRigidbody != null)
 			mRigidbody.velocity = Vector2.zero;
 
-                 
-		state = PlayerState.Idle;
+        _canDoubleJump = true;
+        _doDoubleJump = false;
+        state = PlayerState.Idle;
 	}
 }

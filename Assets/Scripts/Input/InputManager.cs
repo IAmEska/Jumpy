@@ -4,18 +4,14 @@ using System.Collections;
 public class InputManager : MonoBehaviour {
 
     public TrailRenderer touchEffect;
-    public LayerMask[] touchLayers;
+    public LayerMask touchLayers;
     public float touchSize = 1.5f;
+    public bool performDoubleJump = false;
 
-    protected int _touchId;
-    protected int _touchLayersMask;
+    protected int _touchId;             
 
     void Start()
-    {
-        foreach (LayerMask mask in touchLayers)
-        {
-            _touchLayersMask |= mask.value;
-        }
+    {     
     }
 
      protected void CheckIfHit(Touch t)
@@ -25,10 +21,10 @@ public class InputManager : MonoBehaviour {
         pos1.x -= touchSize / 2;
         var pos2 = pos1;
         pos2.x += touchSize;
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(pos, touchSize, _touchLayersMask);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(pos, touchSize, touchLayers.value);
         foreach (Collider2D collider in colliders)
-        {
-            if (collider.tag == "Enemy")
+        {                
+            if (collider.CompareTag(Constants.TAG_ENEMY))
             {
                 var enemy = collider.GetComponent<Enemy>();
                 if (enemy != null && enemy.status == Enemy.Status.Alive)
@@ -38,6 +34,11 @@ public class InputManager : MonoBehaviour {
 
                     enemy.Hit();
                 }
+            }
+            else if(collider.CompareTag(Constants.TAG_DOUBLE_JUMP))
+            {
+                performDoubleJump = true;
+                Debug.Log("DOUBLE JUMP HIT");
             }
         }
     }

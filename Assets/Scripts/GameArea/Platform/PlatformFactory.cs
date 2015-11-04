@@ -4,18 +4,39 @@ using System.Collections;
 public class PlatformFactory : AbstractFactory<Platform> {
 
 	public StartPlatform startPlatform;
-    public float movingPlatformChance = 15f;
-    public float destroyablePlatformChance = 10f;
+    public float offsetX = 2f,               
+        minPlatformWidth = 0.5f,
+        maxPlatformWidth = 1.5f;
+                                       
+    public int maxPlatformAtOnce = 2,
+        minPlatformAtOnce = 1;
+
     public bool isAdvancedPlatforms = false;
 
-	protected float _offsetX;
-	protected Platform _prevPlatform;
+    public PlatformTypeChance[] components;
+                                                        
+	protected Platform _prevPlatform;       
 
+    void Start()
+    {
+        foreach(PlatformTypeChance p in components)
+        {
+            p.pseudoChance = p.chance;
+            p.defualtChance = p.chance;
+            p.defaultMinimumSameComponentGap = p.minimumSameComponentGap;
+        }
+    }
 
-	public void SetOffset(float offsetX)
-	{
-		_offsetX = offsetX;
-	}
+    public void Reset()
+    {
+        foreach (PlatformTypeChance p in components)
+        {
+            p.chance = p.defualtChance;
+            p.pseudoChance = p.defualtChance;   
+            p.minimumSameComponentGap = p.defaultMinimumSameComponentGap;
+            p.lastSpawnPositionY = 0;
+        }
+    }
 
 	public StartPlatform InstantiateStartPlatform(float starPosY)
 	{
@@ -38,6 +59,17 @@ public class PlatformFactory : AbstractFactory<Platform> {
         _positionY = positionY;
     }
 
+    public override void DestoryItem(Component item)
+    {
+        foreach (PlatformTypeChance ptc in components)
+        {
+            Component c = item.GetComponent(ptc.GetComponent());
+            if (c != null)
+                Destroy(c);
+        }
+        base.DestoryItem(item);
+    }
+
     #region implemented abstract members of AbstractFactory
     protected override void SpawnItem (Platform p)
 	{
@@ -45,31 +77,35 @@ public class PlatformFactory : AbstractFactory<Platform> {
         p.SetSprite(0);
         if (isAdvancedPlatforms)
         { 
-            float movingChance = Random.Range(0, 100);
-            if(movingChance <= movingPlatformChance)
+            foreach(PlatformTypeChance ptc in components)
             {
-                p.gameObject.AddComponent<MovingPlatform>();    
-            } 
-
-
-            float destroyableChance = Random.Range(0, 100);
-            if (destroyableChance <= destroyablePlatformChance)
-            {
-                p.gameObject.AddComponent<DestroyablePlatform>();
-                p.SetSprite(1);
-            }
+                if(ptc.lastSpawnPositionY + ptc.minimumSameComponentGap < _positionY)
+                { 
+                    float chance = Random.Range(0, 100);
+                    if (ptc.pseudoChance >=  chance)
+                    {
+                        ptc.pseudoChance = ptc.chance;
+                        ptc.lastSpawnPositionY = _positionY;
+                        p.gameObject.AddComponent(ptc.GetComponent());
+                    }
+                    else
+                    {
+                        ptc.pseudoChance += chance;
+                    }
+                }
+            }              
         }
 
         float posX = Random.Range (_minX, _maxX);
 		if (_prevPlatform != null) {
-			if (Mathf.Abs (posX - _prevPlatform.transform.position.x) < _offsetX) {
+			if (Mathf.Abs (posX - _prevPlatform.transform.position.x) < offsetX) {
 				int r = Random.Range (0, 2);
 				if (r == 0) {
-					posX -= _offsetX;
+					posX -= offsetX;
 					if (posX < _minX)
 						posX = _maxX - Mathf.Abs (posX);
 				} else {
-					posX += _offsetX;
+					posX += offsetX;
 					if (posX > _maxX)
 						posX = _minX + Mathf.Abs (posX);
 				}

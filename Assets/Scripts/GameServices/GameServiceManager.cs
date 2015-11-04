@@ -6,12 +6,15 @@ using UnityEngine.SocialPlatforms;
 public class GameServiceManager : MonoBehaviour {
 
     const int TEST_ACHIEVMENT_SCORE = 10;
-                                       
+    public const string LEADERBOARD_ID = "CgkIhc_Q_OkGEAIQCQ";
+
     protected int _score;
     protected bool _hasAchievment = false;
 
 
     public UnityEngine.UI.Text myText;
+
+    
 
     void Awake()
     {
@@ -56,7 +59,30 @@ public class GameServiceManager : MonoBehaviour {
         });
     }
 
+    public void ShowLeaderboard()
+    {
+        Social.ShowLeaderboardUI();
+    }
         
+    public void ShowAchievement()
+    {
+        Social.ShowAchievementsUI();
+    }
+
+    public void SubmitScore(int score)
+    {
+        if(Social.localUser.authenticated)
+        {
+            Social.ReportScore(score, LEADERBOARD_ID, (bool response) =>
+            {
+                if(response)
+                {
+                    Debug.Log("score submited yay");
+                }
+            });
+        }
+    }
+
 	public void SetScore(int score)
     {
         if(_score != score)
@@ -83,7 +109,7 @@ public class GameServiceManager : MonoBehaviour {
     {
         Debug.Log("calledAchievement");
         myText.text += "calledAchievement\n";
-        Social.Active.ReportProgress(Constants.achievement_firstten, 10.0f, (bool success) =>
+        Social.ReportProgress(Constants.achievement_firstten, 100.0f, (bool success) =>
         {
             if (success)
             {

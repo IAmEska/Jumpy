@@ -24,7 +24,8 @@ public class Platform : MonoBehaviour
 
     public void SetSprite(int position)
     {
-        _spriteRenderer.sprite = sprites[position];
+        if(sprites.Length > position)
+            _spriteRenderer.sprite = sprites[position];
     }
 
     public void SetKinematic(bool enabled)

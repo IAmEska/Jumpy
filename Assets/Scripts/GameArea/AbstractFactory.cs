@@ -1,15 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class AbstractFactory<T> : MonoBehaviour where T : MonoBehaviour {
+public abstract class AbstractFactory<T> : Factory where T : MonoBehaviour {
 
     public AbstractCache<T> cache;
 
     protected int _itemPosition;
-	protected float _minX, _maxX;
+	
 	protected float _positionY;
 
-	void Start () {
+    public override System.Type ItemType()
+    {
+        return typeof(T);
+    }
+
+	void Awake () {
         cache = GetComponentInChildren<AbstractCache<T>>();
         _itemPosition = -1;
 	}
@@ -24,17 +29,13 @@ public abstract class AbstractFactory<T> : MonoBehaviour where T : MonoBehaviour
 		_itemPosition = -1;
 	}
 
-	public virtual void SetBounds(float minX, float maxX)
-	{
-		_minX = minX;
-		_maxX = maxX;
-	}
+	
 
-    public abstract void InstantiateItem(float positionY);
+    public abstract override void InstantiateItem(float positionY);
 
-	public void DestoryItem(T item)
+	public override void DestoryItem(Component item)
     {
-        cache.Return(item);
+        cache.Return(item as T);
     }
 
 	protected abstract void SpawnItem(T item);

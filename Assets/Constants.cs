@@ -24,13 +24,23 @@
 
 public static class Constants
 {
-        public const string event_testovaci_udalost = "CgkIhc_Q_OkGEAIQAg"; // <GPGSID>
-        public const string achievement_treti = "CgkIhc_Q_OkGEAIQBQ"; // <GPGSID>
-        public const string achievement_firstten = "CgkIhc_Q_OkGEAIQAw"; // <GPGSID>
-        public const string achievement_druhy = "CgkIhc_Q_OkGEAIQBA"; // <GPGSID>
-        public const string package_name = "gg.iameska.jump"; // <GPGSID>
-        public const string achievement_ctvrty = "CgkIhc_Q_OkGEAIQBg"; // <GPGSID>
-        public const string achievement_paty = "CgkIhc_Q_OkGEAIQBw"; // <GPGSID>
+    public const string event_testovaci_udalost = "CgkIhc_Q_OkGEAIQAg"; // <GPGSID>
+    public const string achievement_treti = "CgkIhc_Q_OkGEAIQBQ"; // <GPGSID>
+    public const string achievement_firstten = "CgkIhc_Q_OkGEAIQAw"; // <GPGSID>
+    public const string achievement_druhy = "CgkIhc_Q_OkGEAIQBA"; // <GPGSID>
+    public const string package_name = "gg.iameska.jump"; // <GPGSID>
+    public const string achievement_ctvrty = "CgkIhc_Q_OkGEAIQBg"; // <GPGSID>
+    public const string achievement_paty = "CgkIhc_Q_OkGEAIQBw"; // <GPGSID>
+
+    public const string TAG_PLAYER = "Player";
+    public const string TAG_ENEMY = "Enemy";
+    public const string TAG_DOUBLE_JUMP = "DoubleJump";
+
+    public const string SETTINGS_SENSITIVITY = "sensitivity";
+
+    public const string GAME_BEST_SCORE = "bestScore";
+    public const string GAME_LAST_SCORE = "lastScore";
+                        
 
 }
 

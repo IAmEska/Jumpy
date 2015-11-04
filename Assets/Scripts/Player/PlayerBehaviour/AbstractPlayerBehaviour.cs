@@ -7,6 +7,8 @@ public abstract class AbstractPlayerBehaviour : MonoBehaviour
 	public float accelerometerUpdateInterval = 1f / 60f;
 	public float lowPassKernelWidthInSeconds = 0.2f;
 
+    public bool doDoubleJump = false;
+
 	protected float _lowPassFilterFactor;
 	protected float _lowPassValue = 0;
 

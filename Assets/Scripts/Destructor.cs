@@ -4,36 +4,31 @@ using System.Collections;
 public class Destructor : MonoBehaviour
 {
 
+    public int destroyFromHeigh = 5;
+
 	public delegate void ResetFire ();
 	public event ResetFire Reset;
 
 	public LevelGenerator levelGenerator;
 
-	public LayerMask[] destroyLayer;
+	public LayerMask destroyLayer;       
+                                       
 
-	protected int _destroyLayer;
+    void OnTriggerEnter2D(Collider2D other)
+    {                                        
+        int objLayerMask = (1 << other.gameObject.layer);
+        if (Camera.main.transform.position.y >= destroyFromHeigh)
+        {
+            if ((destroyLayer.value & objLayerMask) == objLayerMask) {
+             levelGenerator.DestroyObject(other.gameObject);
+		    }
+        }
 
-	void Start ()
-	{
-		if (destroyLayer.Length > 0) {
-			_destroyLayer = destroyLayer [0];
-
-			for (int i=1; i<destroyLayer.Length; i++) {
-				_destroyLayer |= destroyLayer [i].value;
-			}
-		}
-	}
-
-	void OnTriggerEnter2D (Collider2D other)
-	{
-		int objLayerMask = (1 << other.gameObject.layer);
-		if ((_destroyLayer & objLayerMask) == objLayerMask) {
-            levelGenerator.DestroyObject(other.gameObject);
-		} else if (other.tag == "Player") {
+        if (other.CompareTag(Constants.TAG_PLAYER)) {
 			if (Reset != null)
 				Reset ();
-		}
-	}
+        }
+    }
 
 
 }

@@ -3,26 +3,26 @@ using System.Collections;
 
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Platform))]
-public class DestroyablePlatform : MonoBehaviour
-{                                                      
-    protected Platform _platform;
+[RequireComponent(typeof(BoxCollider2D))]
+public class DestroyablePlatform : PlatformComponent
+{                                 
     protected bool wasFalling = false;
     protected bool enterInAir = false;
 
-    void Awake()
+    protected override void Awake()
     {
-        _platform = GetComponent<Platform>();
+        base.Awake();
         var collider = GetComponent<BoxCollider2D>();
         collider.offset = new Vector2(collider.offset.x, collider.offset.y + 0.5f);
         collider.size = new Vector2(collider.size.x, collider.size.y * 2);
+        _platform.SetSprite(1);
     }           
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.tag == "Player")
         {   
-            PlayerPrototype player = other.gameObject.GetComponent<PlayerPrototype>();
-            Debug.Log("ENTERED - state:" + player.state);
+            PlayerPrototype player = other.gameObject.GetComponent<PlayerPrototype>();      
 
             if (player.state == PlayerPrototype.PlayerState.Falling)
             { 
@@ -42,8 +42,7 @@ public class DestroyablePlatform : MonoBehaviour
         if(other.gameObject.tag == "Player")
         {
             if (!wasFalling && enterInAir)
-            {
-                Debug.Log("entered in air");
+            {                                  
                 PlayerPrototype player = other.gameObject.GetComponent<PlayerPrototype>();
                 if (player.state == PlayerPrototype.PlayerState.Falling)
                     wasFalling = true;
@@ -57,8 +56,7 @@ public class DestroyablePlatform : MonoBehaviour
         if(other.gameObject.tag == "Player")
         {
             if(wasFalling)
-            {
-                Debug.Log("was falling");
+            {                              
                 PlayerPrototype player = other.gameObject.GetComponent<PlayerPrototype>();
                 if(other.transform.position.y + player.halfHeight >= transform.position.y + _platform.platformHeight / 2)
                 {
