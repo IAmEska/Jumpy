@@ -24,7 +24,7 @@ public class CollectibleFactory : AbstractFactory<Collectible> {
         if(_spawnPseudoChance >= chance)
         { 
             _positionY = positionY;
-            _itemPosition = Random.Range(0,2);
+            _itemPosition = Random.Range(0,3);
             _spawnPseudoChance = 0;
         }
         else
