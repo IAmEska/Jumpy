@@ -15,22 +15,22 @@ public class CollectibleFactory : AbstractFactory<Collectible> {
         _spawnPseudoChance = spawnChance;
     }
 
-
     #region implemented abstract members of AbstractFactory
 
     public override void InstantiateItem(float positionY)
-    {
+    {                                  
         int chance = Random.Range(0, 100);
         if(_spawnPseudoChance >= chance)
         { 
             _positionY = positionY;
-            _itemPosition = Random.Range(0,2);
+            _itemPosition = Random.Range(0,cache.cacheTypes.Length);
             _spawnPseudoChance = 0;
         }
         else
         {
             _spawnPseudoChance += spawnChance;
         }
+        _state = FactoryState.GENERATE;
     }
 
     protected override void SpawnItem (Collectible c)

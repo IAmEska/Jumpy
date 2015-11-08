@@ -10,8 +10,7 @@ public class EnemyFactory : AbstractFactory<Enemy>
 
     [Range(0,1000)]
     public int spawnDistanceGap = 4;
-
-    protected float _lastSpawnPositionY;     
+   
     protected int _enemySpawnPseudoChance;
 
     [SerializeField]
@@ -49,6 +48,7 @@ public class EnemyFactory : AbstractFactory<Enemy>
             {
                 _enemySpawnPseudoChance += enemySpawnChance; 
             }
+            _state = FactoryState.GENERATE;
         }
     }
 

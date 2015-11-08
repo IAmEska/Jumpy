@@ -6,14 +6,15 @@ using System.Collections.Generic;
 
 public class CollectiblePlatformManager : AbstractCollectibleManager<PlatformTypeChance.PlatformType>
 {
-    protected PlatformFactory platformFactory;
+    protected PlatformFactory _platformFactory;
+    protected float _defaultDuration = 30;
           
     public CollectiblePlatformManager(PlatformFactory platformFactory)
     {
-        this.platformFactory = platformFactory;
+        _platformFactory = platformFactory;
     }
 
-    public override void AddCollectible(PlatformTypeChance.PlatformType type, int toPositionY)
+    protected void AddDefaultCollectible(PlatformTypeChance.PlatformType type, float toPositionY)
     {
         if (list == null)
             list = new List<CollectibleHolder<PlatformTypeChance.PlatformType>>();
@@ -29,7 +30,6 @@ public class CollectiblePlatformManager : AbstractCollectibleManager<PlatformTyp
                     ptc.toPositionY = toPositionY;
 
                 found = true;
-                Debug.Log("was found madafaka");
                 break;
             }
         }
@@ -38,20 +38,75 @@ public class CollectiblePlatformManager : AbstractCollectibleManager<PlatformTyp
             return;
 
         CollectibleHolder<PlatformTypeChance.PlatformType> newHolder = new CollectibleHolder<PlatformTypeChance.PlatformType>();
-        
-        for(int i=0; i< platformFactory.components.Length; i++)
+
+        for (int i = 0; i < _platformFactory.components.Length; i++)
         {
-            if (platformFactory.components[i].type == type)
+            if (_platformFactory.components[i].type == type)
             {
-                platformFactory.components[i].chance = 100;
-                platformFactory.components[i].minimumSameComponentGap = 0;
+                _platformFactory.components[i].chance = 100;
+                _platformFactory.components[i].minimumSameComponentGap = 0;
                 break;
             }
         }
 
-        Debug.Log("add type - " + type);                        
-        newHolder.toPositionY = toPositionY;  
+        newHolder.toPositionY = toPositionY;
+        newHolder.item = type;
         list.Add(newHolder);
+    }
+
+    protected void AddResizeableCollectible(PlatformTypeChance.PlatformType type, float toPositionY)
+    {
+        if (list == null)
+            list = new List<CollectibleHolder<PlatformTypeChance.PlatformType>>();
+
+        bool found = false;
+
+        foreach (CollectibleHolder<PlatformTypeChance.PlatformType> ptc in list)
+        {
+            if (ptc.item == type)
+            {
+
+                if (ptc.toPositionY < Camera.main.transform.position.y + _defaultDuration)
+                    ptc.toPositionY = Camera.main.transform.position.y + _defaultDuration;
+
+                if(_platformFactory.maxPlatformWidth != toPositionY || _platformFactory.minPlatformWidth != toPositionY)
+                {
+                    _platformFactory.maxPlatformWidth = toPositionY;
+                    _platformFactory.minPlatformWidth = toPositionY;
+                }
+
+                found = true;
+                break;
+            }
+        }
+
+        if (found)
+            return;
+
+        CollectibleHolder<PlatformTypeChance.PlatformType> newHolder = new CollectibleHolder<PlatformTypeChance.PlatformType>();
+        newHolder.item = type;
+
+        _platformFactory.maxPlatformWidth = toPositionY;
+        _platformFactory.minPlatformWidth = toPositionY;
+
+        newHolder.toPositionY = Camera.main.transform.position.y + _defaultDuration;
+        list.Add(newHolder);
+    }
+
+    public override void AddCollectible(PlatformTypeChance.PlatformType type, float toPositionY)
+    {    
+         switch(type)
+        {
+            default:
+                Debug.Log(type + " to position " + toPositionY);
+                AddDefaultCollectible(type, toPositionY);
+                break;
+
+            case PlatformTypeChance.PlatformType.Resizeable:
+                AddResizeableCollectible(type, toPositionY);
+                break;
+        }
+        
     }      
 
     public override void CheckCollectibles(float positionY)
@@ -60,14 +115,14 @@ public class CollectiblePlatformManager : AbstractCollectibleManager<PlatformTyp
         {
             foreach (CollectibleHolder<PlatformTypeChance.PlatformType> holder in list)
             {
-                if(holder.toPositionY < positionY)
+                Debug.Log("CEKUJU - "+holder.item + "stopY: "+holder.toPositionY);
+                if (holder.toPositionY < positionY)
                 {
-                    Debug.Log("remove madafaka");
+                    Debug.Log("JDU ODJEBAT. - "+holder.item);
                     ResetItem(holder.item);
                 }
             }
-            list.RemoveAll(x => x.fromPositionY < positionY);
-            Debug.Log("Remove all - " + list.Count);
+            list.RemoveAll(x => x.toPositionY < positionY);   
         }
     }
 
@@ -85,12 +140,32 @@ public class CollectiblePlatformManager : AbstractCollectibleManager<PlatformTyp
 
     void ResetItem(PlatformTypeChance.PlatformType type)
     {
-        for (int i = 0; i < platformFactory.components.Length; i++)
+        if(type == PlatformTypeChance.PlatformType.Resizeable)
+        {                               
+            ResetResizableItem();
+        }
+        else
         {
-            if (platformFactory.components[i].type == type)
+            ResetDefaultItem(type);
+        }
+        
+    }
+
+    void ResetResizableItem()
+    {
+        Debug.Log("ODJEBAVAM KURVA!");
+        _platformFactory.minPlatformWidth = _platformFactory.defaultMinPlatformWidth;
+        _platformFactory.maxPlatformWidth = _platformFactory.defaultMaxPlatformWidth;
+    }
+
+    void ResetDefaultItem(PlatformTypeChance.PlatformType type)
+    {
+        for (int i = 0; i < _platformFactory.components.Length; i++)
+        {
+            if (_platformFactory.components[i].type == type)
             {
-                platformFactory.components[i].chance = platformFactory.components[i].defualtChance;
-                platformFactory.components[i].minimumSameComponentGap = platformFactory.components[i].defaultMinimumSameComponentGap;
+                _platformFactory.components[i].chance = _platformFactory.components[i].defualtChance;
+                _platformFactory.components[i].minimumSameComponentGap = _platformFactory.components[i].defaultMinimumSameComponentGap;
                 break;
             }
         }

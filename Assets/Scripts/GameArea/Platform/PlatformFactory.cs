@@ -6,7 +6,9 @@ public class PlatformFactory : AbstractFactory<Platform> {
 	public StartPlatform startPlatform;
     public float offsetX = 2f,               
         minPlatformWidth = 0.5f,
-        maxPlatformWidth = 1.5f;
+        maxPlatformWidth = 2.5f,
+        defaultMinPlatformWidth,
+        defaultMaxPlatformWidth;
                                        
     public int maxPlatformAtOnce = 2,
         minPlatformAtOnce = 1;
@@ -15,7 +17,8 @@ public class PlatformFactory : AbstractFactory<Platform> {
 
     public PlatformTypeChance[] components;
                                                         
-	protected Platform _prevPlatform;       
+	protected Platform _prevPlatform;   
+
 
     void Start()
     {
@@ -25,36 +28,42 @@ public class PlatformFactory : AbstractFactory<Platform> {
             p.defualtChance = p.chance;
             p.defaultMinimumSameComponentGap = p.minimumSameComponentGap;
         }
+        defaultMaxPlatformWidth = maxPlatformWidth;
+        defaultMinPlatformWidth = minPlatformWidth;
     }
 
-    public void Reset()
+    protected override void ResetBehaviour()
     {
         foreach (PlatformTypeChance p in components)
         {
             p.chance = p.defualtChance;
-            p.pseudoChance = p.defualtChance;   
+            p.pseudoChance = p.defualtChance;
             p.minimumSameComponentGap = p.defaultMinimumSameComponentGap;
             p.lastSpawnPositionY = 0;
         }
+
+        maxPlatformWidth = defaultMaxPlatformWidth;
+        minPlatformWidth = defaultMinPlatformWidth;
     }
 
-	public StartPlatform InstantiateStartPlatform(float starPosY)
+    public StartPlatform InstantiateStartPlatform(float starPosY)
 	{
-		var sp = Instantiate<StartPlatform> (startPlatform);
-		sp.transform.position = new Vector3 (0, starPosY, 0);
-		sp.transform.parent = transform;
+        StartPlatform sp = Instantiate(startPlatform);
+        sp.transform.position = new Vector3(0, starPosY, 0);
+        sp.transform.parent = transform;
         return sp;
 	}
 
     public override void SetBounds(float minX, float maxX)
     {
         base.SetBounds(minX, maxX);
-        MovingPlatform.maxX = maxX;
-        MovingPlatform.minX = minX;
+        _maxX = maxX;
+        _minX = minX;
     }
 
     public override void InstantiateItem(float positionY)
-    {    
+    {
+        _state = FactoryState.GENERATE;
         _itemPosition = 0;
         _positionY = positionY;
     }
@@ -72,9 +81,11 @@ public class PlatformFactory : AbstractFactory<Platform> {
 
     #region implemented abstract members of AbstractFactory
     protected override void SpawnItem (Platform p)
-	{
-
+	{                    
         p.SetSprite(0);
+        p.minPosX = _minX;
+        p.maxPosX = _maxX;
+
         if (isAdvancedPlatforms)
         { 
             foreach(PlatformTypeChance ptc in components)
@@ -86,7 +97,7 @@ public class PlatformFactory : AbstractFactory<Platform> {
                     {
                         ptc.pseudoChance = ptc.chance;
                         ptc.lastSpawnPositionY = _positionY;
-                        p.gameObject.AddComponent(ptc.GetComponent());
+                        p.gameObject.AddComponent(ptc.GetComponent());     
                     }
                     else
                     {
@@ -111,7 +122,7 @@ public class PlatformFactory : AbstractFactory<Platform> {
 				}
 			}
 		}
-		p.transform.localScale = new Vector3 (Random.Range (p.minWidth, p.maxWidth), 1, 1);
+		p.transform.localScale = new Vector3 (Random.Range (minPlatformWidth, maxPlatformWidth), 1, 1);
 		p.transform.position = new Vector3 (posX, _positionY);
 		_prevPlatform = p;
 	}

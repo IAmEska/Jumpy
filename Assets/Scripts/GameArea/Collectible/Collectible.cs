@@ -16,13 +16,12 @@ public abstract class Collectible : MonoBehaviour
 
 	void OnTriggerEnter2D (Collider2D other)
 	{
-		if (other.tag == "Player") {
+		if (other.CompareTag(Constants.TAG_PLAYER)) {
 			if (GameSettings.vibration)
 				Handheld.Vibrate ();
 
 			if (GameSettings.soundFx) {
-                Debug.Log("DING");
-                _audioSource.volume = 1;
+                Debug.Log("DING");        
 				_audioSource.PlayOneShot (audioClip, GameSettings.soundFxVolume);
             }
 

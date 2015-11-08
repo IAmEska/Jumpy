@@ -27,7 +27,7 @@ public class JumpingPlayerBehaviour : AbstractPlayerBehaviour
 
     protected void LeftRightMove()
     {
-        float x = Input.acceleration.x; //Input.GetAxis ("Horizontal");
+        float x = Input.acceleration.x * (_playerPrototype.isControlSwaped ? -1 : 1); //Input.GetAxis ("Horizontal");
         _lowPassValue = Mathf.Lerp(_lowPassValue, x, _lowPassFilterFactor);
 		float currentY = _playerPrototype.mRigidbody.velocity.y;
 		_playerPrototype.mRigidbody.velocity = Vector2.right * _playerPrototype.forceX * GameSettings.sensitivity * _lowPassValue + new Vector2 (0, currentY);

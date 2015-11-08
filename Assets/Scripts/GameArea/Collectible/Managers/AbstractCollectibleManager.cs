@@ -9,7 +9,7 @@ public abstract class AbstractCollectibleManager<T>
     [SerializeField]
     public List<CollectibleHolder<T>> list;
 
-    public abstract void AddCollectible(T collectible,  int toPositionY);         
+    public abstract void AddCollectible(T collectible,  float toPositionY);         
 
     public abstract void CheckCollectibles(float positionY);
 
@@ -22,9 +22,9 @@ public abstract class AbstractCollectibleManager<T>
         public T item;
 
         [SerializeField]
-        public int fromPositionY;
+        public float fromPositionY;
 
         [SerializeField]
-        public int toPositionY;
+        public float toPositionY;
     }
 }

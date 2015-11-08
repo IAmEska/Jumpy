@@ -4,6 +4,15 @@ using System.Collections;
 public class LevelGenerator : MonoBehaviour
 {
 
+    public enum GeneratorState
+    {       
+            RESET,
+            START,
+            GENERATE,
+            DEAD,
+            IDLE
+    }
+
 	//public EnemyFactory enemyFactory;
 	//public CollectibleFactory collectibleFactory;
 
@@ -18,18 +27,12 @@ public class LevelGenerator : MonoBehaviour
 	protected StartPlatform _startPlatformRef;
     protected PlatformFactory _platformFactory;
 
-    public bool isAllCleared = false;
-
-    protected bool _initStartPlatform, _isFirstRun;
+    protected GeneratorState _state, _prevState;
 
 	// Use this for initialization
 	void Start ()
-	{
-        _initStartPlatform = true;
-        _isFirstRun = true;
-
-        _startPosY = Camera.main.transform.position.y - Camera.main.orthographicSize;
-		_currentPositionY = _startPosY + offsetY;
+	{                           
+        _startPosY = Camera.main.transform.position.y - Camera.main.orthographicSize;         
 
 		float sizeX = Camera.main.orthographicSize * Screen.width / Screen.height;
 		_areaMinX = Camera.main.transform.position.x - sizeX;
@@ -43,69 +46,87 @@ public class LevelGenerator : MonoBehaviour
                 _platformFactory = fti.factory as PlatformFactory;
             }
         }
+
+        _state = GeneratorState.RESET;
+        _prevState = GeneratorState.IDLE;
+    }
+
+    protected void ResetBehaviour ()
+	{
+        ClearAll();                                           
+		_currentPositionY = _startPosY + offsetY;   
 	}
 
-	public void Reset ()
-	{
-        _platformFactory.Reset();
-		_currentPositionY = _startPosY + offsetY;
-        Debug.Log("offset:" + _currentPositionY);
-        generate = false;
-        if (!_isFirstRun)
-        { 
-		    _initStartPlatform = true;
-            isAllCleared = false;
-            ClearAll();
-        }
-        else
+    protected void GenerateBehaviour()
+    {
+        if (_currentPositionY < Camera.main.transform.position.y + Camera.main.orthographicSize)
         {
-            isAllCleared = true;
-            _isFirstRun = false;
+            _platformFactory.isAdvancedPlatforms = true;
+
+            foreach (FactoryTypeInfo fti in factories)
+            {
+                float position = _currentPositionY;
+                if (fti.addOffset)
+                    position += offsetY / 2;
+
+                if (fti.generateFromStart)
+                {
+                    fti.factory.InstantiateItem(position);
+                }
+                else if (_currentPositionY > _startPosY + 2 * Camera.main.orthographicSize)
+                {
+                    fti.factory.InstantiateItem(position);
+                }
+            }
+            _currentPositionY += 2f;
         }
-              
-        
-	}
+    }
+
+    protected void DeadBehaviour()
+    {
+        if (_startPlatformRef != null)
+            _startPlatformRef.GetComponent<Collider2D>().isTrigger = true;
+
+        _currentPositionY = _startPosY + offsetY;
+        _platformFactory.isAdvancedPlatforms = false;
+    }
 
 	void FixedUpdate ()
 	{
-		if (_initStartPlatform) {
-            _startPlatformRef = _platformFactory.InstantiateStartPlatform(_startPosY);
-			_initStartPlatform = false;
-		}
-
-		if (generate) {
-            if (_currentPositionY < Camera.main.transform.position.y + Camera.main.orthographicSize)
-            {
-                _platformFactory.isAdvancedPlatforms = true;
-
-                foreach (FactoryTypeInfo fti in factories)
+		switch(_state)
+        {
+            case GeneratorState.RESET:
+                if(_prevState != _state)
                 {
-                    float position = _currentPositionY;
-                    if (fti.addOffset)
-                        position += offsetY / 2;
-
-                    if(fti.generateFromStart)
-                    {
-                        fti.factory.InstantiateItem(position);
-                    }
-                    else if(_currentPositionY > _startPosY + 2 * Camera.main.orthographicSize)
-                    {
-                        fti.factory.InstantiateItem(position);
-                    }
+                    ResetBehaviour();
                 }
-                _currentPositionY += 2;
-            }
-		}
+                break;
+
+            case GeneratorState.START:
+                if(_prevState != _state)
+                {
+                    _startPlatformRef = _platformFactory.InstantiateStartPlatform(_startPosY);
+                    _state = GeneratorState.GENERATE;
+                }
+                break;
+
+            case GeneratorState.GENERATE:
+                GenerateBehaviour();
+                break;
+
+            case GeneratorState.DEAD:
+                if(_prevState != _state)
+                {
+                    DeadBehaviour();
+                }
+                break;
+        }
+        _prevState = _state;     
 	}
 
-    public void SetDeadStatus()
-    {                           
-        if(_startPlatformRef != null)
-            _startPlatformRef.GetComponent<Collider2D>().isTrigger = true;
-
-        generate = false;
-        _currentPositionY = _startPosY + offsetY;
-        _platformFactory.isAdvancedPlatforms = false;
+    public void SetState(GeneratorState state)
+    {
+        _state = state;
     }
 
     public void DestroyObject(GameObject item)
@@ -127,25 +148,10 @@ public class LevelGenerator : MonoBehaviour
     }
 
 	protected void ClearAll ()
-	{
+	{       
         foreach(FactoryTypeInfo fti in factories)
         {
-            Clear(fti.factory);
-        }
-        isAllCleared = true;
-    }
-
-	protected void Clear (Factory factory)
-	{
-		if (factory.transform.childCount > 0) {
-			for (int i=0; i< factory.transform.childCount; i++) {
-				var t = factory.transform.GetChild (i);
-				if(t.gameObject.layer == factory.gameObject.layer)
-				{
-                    Component rt = t.GetComponent(factory.ItemType());
-                    factory.DestoryItem(rt);
-				}
-			}
-		}
-	}        
+            fti.factory.SetState(Factory.FactoryState.CLEAR);
+        }                    
+    }      
 }

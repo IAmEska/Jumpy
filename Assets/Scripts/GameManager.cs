@@ -58,8 +58,7 @@ public class GameManager : MonoBehaviour
 		_spawnPosition = _camera.transform.position;
 		_spawnPosition.y -= Camera.main.orthographicSize - _playerYOffset;
 		_spawnPosition.z = 0;
-		_playerInstance = Instantiate (player, _spawnPosition, Quaternion.identity) as PlayerPrototype;
-        _camera.player = _playerInstance;
+        
 
         _adsManager.CreateAdBanner ();
 
@@ -95,7 +94,14 @@ public class GameManager : MonoBehaviour
 		_state = GameState.Reset;
 		GUI_mainMenu.gameObject.SetActive (false);
         GUI_inGame.gameObject.SetActive(true);
-	}           
+
+        if(_playerInstance == null)
+        { 
+            _playerInstance = Instantiate(player, _spawnPosition, Quaternion.identity) as PlayerPrototype;
+            _collectibleManager.playerPrototype = _playerInstance;
+            _camera.player = _playerInstance;
+        }
+    }           
 
 	// Update is called once per frame
 	void FixedUpdate ()
@@ -112,29 +118,23 @@ public class GameManager : MonoBehaviour
 
 		case GameState.Reset:    
 			_playerInstance.Reset ();
-			levelGenerator.Reset ();
-            _collectibleManager.Reset();
-                Debug.Log("reset");
-                inputManager.Reset();
+                
+             inputManager.Reset();
 			_camera.Reset ();
-			_adsManager.HideAd();
 			_state = GameState.Start;
 			break;
                 
-		case GameState.Start:
-            if(levelGenerator.isAllCleared)
-            { 
-			    _state = GameState.Game;
-                    Debug.Log("start");
-              
-			    levelGenerator.generate = true;
-			    _playerInstance.SetState (PlayerPrototype.PlayerState.Falling);
-            }
+		case GameState.Start:                                                       
+			_state = GameState.Game;
+            _adsManager.HideAd(); 
+            levelGenerator.SetState(LevelGenerator.GeneratorState.START);
+			_playerInstance.SetState (PlayerPrototype.PlayerState.Falling);
             break;
+
 		case GameState.Game:
-            if (_playerInstance.state == PlayerPrototype.PlayerState.Idle)
+            if (_playerInstance.state == PlayerPrototype.PlayerState.Dead)
             {
-                levelGenerator.SetDeadStatus();
+                levelGenerator.SetState(LevelGenerator.GeneratorState.DEAD);
             }         
 
             if((int)_playerInstance.transform.position.y > _maxPlayerPositionY)
@@ -157,6 +157,8 @@ public class GameManager : MonoBehaviour
             //TODO menu blabla
             if (_prevState != _state)
             {
+                levelGenerator.SetState(LevelGenerator.GeneratorState.RESET);
+                _collectibleManager.SetState(CollectibleManager.ManagerState.RESET);
                 GUI_mainMenu.gameObject.SetActive(true);
                 GUI_inGame.gameObject.SetActive(false);
                 _adsManager.ShowAd();

@@ -28,7 +28,9 @@ public class PlayerPrototype : MonoBehaviour
 		groundedTreshold = 0.2f,
 		groundedNegativeTreshold = -0.15f,
         halfWidth,
-        halfHeight;           
+        halfHeight;
+
+    public bool isControlSwaped = false;
 
     protected float _areaMinX, 
 		_areaMaxX;

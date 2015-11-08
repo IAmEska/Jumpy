@@ -7,7 +7,8 @@ public class PlatformTypeChance  {
     public enum PlatformType
     {
         Destroyable,
-        MovingPlatform
+        MovingPlatform,
+        Resizeable
     }                               
                          
     public PlatformType type;
