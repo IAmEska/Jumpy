@@ -60,9 +60,6 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -316,6 +313,7 @@
     <Compile Include="Assets\Scripts\GameSettings.cs" />
     <Compile Include="Assets\Scripts\Input\InputManager.cs" />
     <Compile Include="Assets\Scripts\KillingFloor.cs" />
+    <Compile Include="Assets\Scripts\MainMenu\MainMenuBehaviour.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerBehaviour\AbstractPlayerBehaviour.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerBehaviour\JumpingPlayerBehaviour.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerPrototype.cs" />

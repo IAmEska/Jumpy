@@ -17,11 +17,11 @@ public class CollectiblePlatformManager : AbstractCollectibleManager<PlatformTyp
     protected void AddDefaultCollectible(PlatformTypeChance.PlatformType type, float toPositionY)
     {
         if (list == null)
-            list = new List<CollectibleHolder<PlatformTypeChance.PlatformType>>();
+            list = new List<CollectibleHolder>();
 
         bool found = false;
 
-        foreach (CollectibleHolder<PlatformTypeChance.PlatformType> ptc in list)
+        foreach (CollectibleHolder ptc in list)
         {
             if (ptc.item == type)
             {
@@ -37,7 +37,7 @@ public class CollectiblePlatformManager : AbstractCollectibleManager<PlatformTyp
         if (found)
             return;
 
-        CollectibleHolder<PlatformTypeChance.PlatformType> newHolder = new CollectibleHolder<PlatformTypeChance.PlatformType>();
+        CollectibleHolder newHolder = new CollectibleHolder();
 
         for (int i = 0; i < _platformFactory.components.Length; i++)
         {
@@ -57,11 +57,11 @@ public class CollectiblePlatformManager : AbstractCollectibleManager<PlatformTyp
     protected void AddResizeableCollectible(PlatformTypeChance.PlatformType type, float toPositionY)
     {
         if (list == null)
-            list = new List<CollectibleHolder<PlatformTypeChance.PlatformType>>();
+            list = new List<CollectibleHolder>();
 
         bool found = false;
 
-        foreach (CollectibleHolder<PlatformTypeChance.PlatformType> ptc in list)
+        foreach (CollectibleHolder ptc in list)
         {
             if (ptc.item == type)
             {
@@ -83,7 +83,7 @@ public class CollectiblePlatformManager : AbstractCollectibleManager<PlatformTyp
         if (found)
             return;
 
-        CollectibleHolder<PlatformTypeChance.PlatformType> newHolder = new CollectibleHolder<PlatformTypeChance.PlatformType>();
+        CollectibleHolder newHolder = new CollectibleHolder();
         newHolder.item = type;
 
         _platformFactory.maxPlatformWidth = toPositionY;
@@ -113,7 +113,7 @@ public class CollectiblePlatformManager : AbstractCollectibleManager<PlatformTyp
     {
         if(list != null && list.Count > 0)
         {
-            foreach (CollectibleHolder<PlatformTypeChance.PlatformType> holder in list)
+            foreach (CollectibleHolder holder in list)
             {
                 Debug.Log("CEKUJU - "+holder.item + "stopY: "+holder.toPositionY);
                 if (holder.toPositionY < positionY)
@@ -130,7 +130,7 @@ public class CollectiblePlatformManager : AbstractCollectibleManager<PlatformTyp
     {
         if(list != null)
         { 
-            foreach (CollectibleHolder<PlatformTypeChance.PlatformType> holder in list)
+            foreach (CollectibleHolder holder in list)
             {
                 ResetItem(holder.item);
             }

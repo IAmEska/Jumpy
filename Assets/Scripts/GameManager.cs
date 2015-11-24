@@ -19,8 +19,7 @@ public class GameManager : MonoBehaviour
 	public float _playerYOffset;
 	public Destructor[] destructors;
          
-    public InputManager inputManager;     
-    
+    public InputManager inputManager;
 
 	protected CameraFollow _camera;
 	protected PlayerPrototype _playerInstance;
@@ -37,11 +36,26 @@ public class GameManager : MonoBehaviour
     public Canvas GUI_mainMenu, GUI_inGame;
     public UnityEngine.UI.Text GUI_scoreBoard;
 
+    protected bool _isPaused = false;
 
     public void DoDoubleJump()
     {
         inputManager.performDoubleJump = true;
     }
+
+    public void Pause()
+    {
+        if(_isPaused)
+        {
+            Time.timeScale = 1;   
+        }
+        else
+        {
+            Time.timeScale = 0;    
+        }
+
+        _isPaused = !_isPaused;
+    }                                               
 
     // Use this for initialization
     void Start()

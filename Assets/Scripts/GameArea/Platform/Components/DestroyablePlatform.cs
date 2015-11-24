@@ -5,70 +5,56 @@ using System.Collections;
 [RequireComponent(typeof(Platform))]
 [RequireComponent(typeof(BoxCollider2D))]
 public class DestroyablePlatform : PlatformComponent
-{                                 
-    protected bool wasFalling = false;
-    protected bool enterInAir = false;
+{  
+    public enum DestroyableState
+    {
+        Idle,
+        Shaking,
+        Fall
+    }
+
+    public float shakeTime = 1f;
+    protected DestroyableState _state = DestroyableState.Idle,
+        _prevState = DestroyableState.Idle;
 
     protected override void Awake()
     {
         base.Awake();
-        var collider = GetComponent<BoxCollider2D>();
-        collider.offset = new Vector2(collider.offset.x, collider.offset.y + 0.5f);
-        collider.size = new Vector2(collider.size.x, collider.size.y * 2);
+        _state = DestroyableState.Idle;
+        _prevState = DestroyableState.Idle;                                                    
         _platform.SetSprite(1);
     }           
 
-    void OnTriggerEnter2D(Collider2D other)
+    public void StartFalling()
     {
-        if(other.gameObject.tag == "Player")
-        {   
-            PlayerPrototype player = other.gameObject.GetComponent<PlayerPrototype>();      
-
-            if (player.state == PlayerPrototype.PlayerState.Falling)
-            { 
-                wasFalling = true;
-                return;
-            }
-            else if(player.state == PlayerPrototype.PlayerState.InAir)
-            {
-                enterInAir = true; 
-            }
-            wasFalling = false;
-        }
+        _state = DestroyableState.Shaking;    
     }
 
-    void OnTriggerStay2D(Collider2D other)
+    void FixedUpdate()
     {
-        if(other.gameObject.tag == "Player")
+        switch(_state)
         {
-            if (!wasFalling && enterInAir)
-            {                                  
-                PlayerPrototype player = other.gameObject.GetComponent<PlayerPrototype>();
-                if (player.state == PlayerPrototype.PlayerState.Falling)
-                    wasFalling = true;
-            }
-
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if(other.gameObject.tag == "Player")
-        {
-            if(wasFalling)
-            {                              
-                PlayerPrototype player = other.gameObject.GetComponent<PlayerPrototype>();
-                if(other.transform.position.y + player.halfHeight >= transform.position.y + _platform.platformHeight / 2)
+            case DestroyableState.Shaking:
+                //TODO Shake object
+                if(_prevState != _state)
                 {
-                    if(other.transform.position.x + player.halfWidth >= transform.position.x - _platform.platformWidth/2 && other.transform.position.x - player.halfWidth <= transform.position.x + _platform.platformWidth / 2)
-                    {
-                        _platform.SetKinematic(false);     
-                    }
+                    StartCoroutine(FallAfterTime());
                 }
-            }
-            enterInAir = false;
-            wasFalling = false;
-        }
+                break;
+
+            case DestroyableState.Fall:
+                if (_prevState != _state)
+                {
+                    _platform.SetKinematic(false);
+                }
+                break;
+        } 
+        _prevState = _state;
     }
 
+    IEnumerator FallAfterTime()
+    {
+        yield return new WaitForSeconds(shakeTime);
+        _state = DestroyableState.Fall;
+    }      
 }

@@ -7,7 +7,7 @@ using System;
 public abstract class AbstractCollectibleManager<T>
 {
     [SerializeField]
-    public List<CollectibleHolder<T>> list;
+    public List<CollectibleHolder> list;
 
     public abstract void AddCollectible(T collectible,  float toPositionY);         
 
@@ -16,7 +16,7 @@ public abstract class AbstractCollectibleManager<T>
     public abstract void Clear();
 
     [Serializable]
-    public class CollectibleHolder<T>
+    public class CollectibleHolder
     {
         [SerializeField]
         public T item;
