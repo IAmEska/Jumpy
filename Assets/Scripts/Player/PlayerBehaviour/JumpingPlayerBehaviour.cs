@@ -8,8 +8,7 @@ public class JumpingPlayerBehaviour : AbstractPlayerBehaviour
 
 	public override void GroundedBehaviour ()
 	{
-        //_playerPrototype.mRigidbody.velocity = transform.up * _playerPrototype.forceY;
-        CheckDoubleJump();
+        _playerPrototype.mRigidbody.velocity = transform.up * _playerPrototype.forceY;
         LeftRightMove ();
 		_playerPrototype.SetState (PlayerPrototype.PlayerState.InAir);
 	}

@@ -13,7 +13,7 @@ public class DestroyablePlatform : PlatformComponent
         Fall
     }
 
-    public float shakeTime = 1f;
+    public float shakeTime = 0.5f;
     protected DestroyableState _state = DestroyableState.Idle,
         _prevState = DestroyableState.Idle;
 

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(AudioSource))]
 public class PlayerPrototype : MonoBehaviour
 {
     public enum PlayerState
@@ -27,6 +28,8 @@ public class PlayerPrototype : MonoBehaviour
         halfWidth,
         halfHeight;
 
+	public AudioClip audioJump;
+
     public bool isControlSwaped = false;
 
     protected float _rayCastGroundRange = 2f;
@@ -43,7 +46,7 @@ public class PlayerPrototype : MonoBehaviour
     protected Collider2D _collider;
     protected PlayerState _prevState;
 
-
+	protected AudioSource _audioSource;
     protected AbstractPlayerBehaviour _behaviour;
     protected PlayerBehaviours _prevSelectedBehaviour;
 
@@ -57,6 +60,7 @@ public class PlayerPrototype : MonoBehaviour
         halfWidth = _renderer.bounds.size.x / 2;
 
         _collider = GetComponent<Collider2D>();
+		_audioSource = GetComponent<AudioSource> ();
 
         float sizeX = Camera.main.orthographicSize * Screen.width / Screen.height;
         _areaMinX = Camera.main.transform.position.x - sizeX;
@@ -130,19 +134,26 @@ public class PlayerPrototype : MonoBehaviour
 
     protected void CheckGroundCollision()
     {
-        RaycastHit2D hit = Physics2D.CircleCast(transform.position, 0.2f, transform.up * -1, _rayCastGroundRange, groundMask.value);
-        if(hit.transform != null)
-        {
-            Debug.Log("fraction: " + hit.fraction);
-            if(hit.fraction <= 0.55f)
-            {                     
-                state = PlayerState.Grounded;
-                DestroyablePlatform dp = hit.transform.gameObject.GetComponent<DestroyablePlatform>();
-                if (dp != null)
-                {
-                    dp.StartFalling();
-                }
-            }    
+        RaycastHit2D[] hits= Physics2D.CircleCastAll(transform.position, 0.2f, transform.up * -1, _rayCastGroundRange, groundMask.value);
+        foreach(RaycastHit2D hit in hits)
+		{
+			if(hit.transform != null)
+	        {
+				if(hit.distance <= 1)
+				{
+					Platform p = hit.transform.GetComponent<Platform>();
+					if(transform.position.y - halfHeight + 0.15f >= p.transform.position.y + p.platformHeight/2)
+		            {                 
+						_audioSource.PlayOneShot(audioJump);
+		                state = PlayerState.Grounded;
+		                DestroyablePlatform dp = hit.transform.gameObject.GetComponent<DestroyablePlatform>();
+		                if (dp != null)
+		                {
+		                    dp.StartFalling();
+		                }
+		            }    
+				}
+			}
         }
     }
 
