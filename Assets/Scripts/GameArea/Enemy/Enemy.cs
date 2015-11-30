@@ -101,7 +101,9 @@ public abstract class Enemy : MonoBehaviour
                 PlayerPrototype pp = other.GetComponent<PlayerPrototype>();
                 if(pp.isImmortal || pp.isShieldOn)
                 {
-                    pp.SetShield(false);
+					if(pp.isShieldOn && !pp.isImmortal)
+                    	pp.SetShield(false);
+
                     Hit();
                 }
                 else

@@ -18,6 +18,10 @@ public class PlayerPrototype : MonoBehaviour
         JumpingBehaviour
     }
 
+	const string ANIM_IS_GROUNDED = "IsGrounded";
+	const string ANIM_IS_DEAD = "IsDead";
+	const string ANIM_IS_FALLING = "IsFalling";
+
     public GameObject shield;
     public PlayerState state;
     public Rigidbody2D mRigidbody;
@@ -47,6 +51,7 @@ public class PlayerPrototype : MonoBehaviour
     protected SpriteRenderer _renderer;
     protected Collider2D _collider;
     protected PlayerState _prevState;
+	protected Animator _animator;
 
 	protected AudioSource _audioSource;
     protected AbstractPlayerBehaviour _behaviour;
@@ -58,6 +63,8 @@ public class PlayerPrototype : MonoBehaviour
         _startPosition = transform.position;
         _renderer = GetComponent<SpriteRenderer>();
         mRigidbody = GetComponent<Rigidbody2D>();
+		_animator = GetComponent<Animator> ();
+
         halfHeight = _renderer.bounds.size.y / 2;
         halfWidth = _renderer.bounds.size.x / 2;
 
@@ -121,18 +128,35 @@ public class PlayerPrototype : MonoBehaviour
                     isImmortal = false;
 
                 _canDoubleJump = true;
+				if(_prevState != state)
+				{
+					_animator.SetBool(ANIM_IS_FALLING, false);
+					_animator.SetBool(ANIM_IS_GROUNDED, true);
+				}
                 _behaviour.GroundedBehaviour();
                 break;
 
             case PlayerState.InAir:
+				if(_prevState != state)
+				{
+					_animator.SetBool(ANIM_IS_GROUNDED, false);
+				}
+
                 _behaviour.InAirBehaviour();
                 if (mRigidbody.velocity.y <= 0)
                 {
+					_animator.SetBool(ANIM_IS_FALLING, true);
                     state = PlayerState.Falling;
                 }
                 break;
 
             case PlayerState.Falling:
+				if(_prevState != state) 
+				{
+					_animator.SetBool(ANIM_IS_GROUNDED, true);
+					_animator.SetBool(ANIM_IS_FALLING, false);
+				}
+
                 _behaviour.FallingBehaivour();
                 CheckGroundCollision();
                 break;
