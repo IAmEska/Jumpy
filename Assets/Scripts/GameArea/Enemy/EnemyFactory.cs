@@ -2,8 +2,7 @@
 using System.Collections;
 
 public class EnemyFactory : AbstractFactory<Enemy>
-{
-    public float edgeXOffset = 1.5f;
+{          
 
     [Range(0,100)]
     public int enemySpawnChance = 5;
@@ -63,8 +62,8 @@ public class EnemyFactory : AbstractFactory<Enemy>
 		if (e is ITopSpawn) {
 			
             if(e is UpToDownFlyingEnemy)
-            {
-                e.transform.position = new Vector3(Random.Range(_minX + edgeXOffset, _maxX - edgeXOffset), _positionY + _fallingYOffset);
+            {   
+                e.transform.position = new Vector3(Random.Range(_minX + e.spriteWidth / 2, _maxX - e.spriteWidth / 2), _positionY + _fallingYOffset);
                 StopCoroutine(DisableWarningImage());
 
                 Vector3 canvasPos;
@@ -82,7 +81,7 @@ public class EnemyFactory : AbstractFactory<Enemy>
             }
             else
             {
-                e.transform.position = new Vector3(Random.Range(_minX + edgeXOffset, _maxX - edgeXOffset), _positionY);
+                e.transform.position = new Vector3(Random.Range(_minX + e.spriteWidth / 2, _maxX - e.spriteWidth / 2), _positionY);
             }
 			
 		} else if (e is IBottomSpawn) {

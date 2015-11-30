@@ -25,7 +25,7 @@ public class DestroyablePlatform : PlatformComponent
         _platform.SetSprite(1);
     }           
 
-    public void StartFalling()
+    public virtual void StartFalling()
     {
         _state = DestroyableState.Shaking;    
     }

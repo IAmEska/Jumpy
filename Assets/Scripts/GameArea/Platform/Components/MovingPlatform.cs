@@ -14,7 +14,7 @@ public class MovingPlatform : MonoBehaviour {
     void Awake()
     {
         _platform = GetComponent<Platform>();
-        
+        direction = Random.Range(0, 2) == 0 ? 1 : -1;
     }
 
 

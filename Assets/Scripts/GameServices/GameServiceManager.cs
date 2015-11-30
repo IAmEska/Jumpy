@@ -22,8 +22,7 @@ public class GameServiceManager : MonoBehaviour {
     }
 
     public void SignIn()
-    {
-        Debug.Log("SignIn Called");
+    {                                 
 
         myText.text = "SignIn Called\n";
 
@@ -40,19 +39,16 @@ public class GameServiceManager : MonoBehaviour {
                 {
                     if (achievements.Length == 0)
                     {
-                        myText.text += "No achievements\n";
-                        Debug.Log("No achievements");
+                        myText.text += "No achievements\n"; 
                     }
                     else
                     {
-                        myText.text += "Have achievements\n";
-                       Debug.Log("Have achievements");
+                        myText.text += "Have achievements\n"; 
                     }
                 });
             }
             else
-            {
-                Debug.Log("not logged");
+            {                              
                 myText.text += "not logged\n";
             }
             

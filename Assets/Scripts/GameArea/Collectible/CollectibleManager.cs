@@ -12,6 +12,7 @@ public class CollectibleManager : MonoBehaviour {
 
     protected ManagerState _state;
 
+    public PowerUpInfoManager powerUpInfoManager;
     public PlatformFactory platformFactory;
     public PlayerPrototype playerPrototype;
     public LayerMask landMask;
@@ -33,22 +34,16 @@ public class CollectibleManager : MonoBehaviour {
     }
 
     public void AddCollectible(Collectible collectible)
-    {
+    {               
         _collectibleToAdd = collectible;
         _state = ManagerState.ADDCOLLECTIBLE; 
     }
 
 	// Use this for initialization
 	void AddPlatformCollectible(PlatformTypeChance.PlatformType type, float value)
-    {        
-        if(type == PlatformTypeChance.PlatformType.Resizeable)
-        {
-            _collectiblePlatformManager.AddCollectible(type, value);
-        }
-        else
-        {
-            _collectiblePlatformManager.AddCollectible(type, Camera.main.transform.position.y + value);
-        }
+    {   
+        _collectiblePlatformManager.AddCollectible(type, value);
+        
 
         for (int i=0; i<platformFactory.transform.childCount; i++)
         {
@@ -77,24 +72,61 @@ public class CollectibleManager : MonoBehaviour {
     protected void AddSwapControlCollectible(float value)
     {           
         _swapControlToY = value + Camera.main.transform.position.y;
-        playerPrototype.isControlSwaped = true; ;
+        playerPrototype.isControlSwaped = true;
+    }
+
+    protected void AddShieldCollectible()
+    {
+        playerPrototype.SetShield(true);
+    }
+
+    protected void AddBurstCollectible(float value)
+    {    
+        playerPrototype.BurstJump(value);
     }
 
     protected void AddCollectibleBehaviour()
     {
+        bool addCollectibleToGui = false;
+
+        float value = 0, infoValue = 0;
         if (_collectibleToAdd is AbstractCollectiblePlatforms)
-        {
-            Debug.Log("add collectible platfrom");
+        {                                           
             AbstractCollectiblePlatforms cp = _collectibleToAdd as AbstractCollectiblePlatforms;
-            AddPlatformCollectible(cp.type, cp.value);
+            if(cp.type == PlatformTypeChance.PlatformType.Resizeable)
+            { 
+                value = cp.value;
+                infoValue = Camera.main.transform.position.y + CollectiblePlatformManager.DEFAULT_DURATION;
+            }
+            else
+            {
+                value = cp.value + Camera.main.transform.position.y;
+                infoValue = value;
+            }
+            AddPlatformCollectible(cp.type, value);
+            addCollectibleToGui = true;
         }
         else if(_collectibleToAdd is SwapControlsCollectible)
-        {
-            Debug.Log("Swap controls");
+        {                                
             SwapControlsCollectible scc = _collectibleToAdd as SwapControlsCollectible;
-            AddSwapControlCollectible(scc.value);
+            value = scc.value + Camera.main.transform.position.y;
+            infoValue = value;
+            AddSwapControlCollectible(value);
+            addCollectibleToGui = true;
+        }
+        else if(_collectibleToAdd is BurstCollectible)
+        {
+            BurstCollectible bc = _collectibleToAdd as BurstCollectible;
+            AddBurstCollectible(bc.value);
+        }
+        else if(_collectibleToAdd is ShieldCollectible)
+        {
+            AddShieldCollectible();
         }
 
+        if(addCollectibleToGui)
+            powerUpInfoManager.AddCollectible(_collectibleToAdd, infoValue);
+        
         Destroy(_collectibleToAdd.gameObject);
     }
 
@@ -130,6 +162,7 @@ public class CollectibleManager : MonoBehaviour {
 
             case ManagerState.RESET:
                 ResetBehaviour();
+                powerUpInfoManager.Clear();
                 _state = ManagerState.IDLE;
                 break;
         }

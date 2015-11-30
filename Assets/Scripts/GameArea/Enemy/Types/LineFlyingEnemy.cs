@@ -20,7 +20,7 @@ public class LineFlyingEnemy : Enemy, ITopSpawn
 	protected override void AliveBehaviour ()
 	{
 		var nextPos = transform.position + transform.right * direction * flySpeed * Time.deltaTime;
-		if (nextPos.x + _spriteWidth / 2 >= _areaMaxX || nextPos.x - _spriteWidth / 2 <= _areaMinX) {
+		if (nextPos.x + spriteWidth / 2 >= _areaMaxX || nextPos.x - spriteWidth / 2 <= _areaMinX) {
 			var curScale = transform.localScale;
 			curScale.x *= -1;
 			transform.localScale = curScale;

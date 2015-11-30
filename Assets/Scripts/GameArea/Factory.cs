@@ -36,18 +36,10 @@ public abstract class Factory : MonoBehaviour  {
 
     protected virtual void ClearBehaviour()
     {
-        Debug.Log(name + " clear");
-        if (transform.childCount > 0)
+        Component[] components = GetComponentsInChildren(ItemType());
+        for(int i=0; i<components.Length; i++)
         {
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                var t = transform.GetChild(i);
-                if (t.gameObject.layer == gameObject.layer)
-                {
-                    Component rt = t.GetComponent(ItemType());
-                    DestoryItem(rt);
-                }
-            }
+            DestoryItem(components[i]);
         }
     } 
     

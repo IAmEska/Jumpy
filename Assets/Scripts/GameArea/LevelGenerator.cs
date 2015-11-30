@@ -19,7 +19,7 @@ public class LevelGenerator : MonoBehaviour
     public FactoryTypeInfo[] factories;
 
 	public bool generate = false;
-
+    public float platfromDestroyDistance = 20f;
 	public float offsetY;                  
 
 	protected float _startPosY, _currentPositionY;
@@ -151,6 +151,7 @@ public class LevelGenerator : MonoBehaviour
 	{       
         foreach(FactoryTypeInfo fti in factories)
         {
+            Debug.Log("clearing factory: " + fti.factory.name);
             fti.factory.SetState(Factory.FactoryState.CLEAR);
         }                    
     }      

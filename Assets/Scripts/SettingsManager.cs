@@ -20,8 +20,7 @@ public class SettingsManager : MonoBehaviour {
     public void SetIndicators()
     {
         if(GameSettings.game_bestScore  > 0)
-        {
-            Debug.Log("last score:" + GameSettings.game_lastScore + " best score:" + GameSettings.game_bestScore);
+        {                                                                                                              
 
             bestScoreIndicator.transform.position = new Vector3(0, GameSettings.game_bestScore, 0);
             lastScoreIndicator.transform.position = new Vector3(0, GameSettings.game_lastScore, 0);

@@ -37,7 +37,7 @@ public class CollectibleFactory : AbstractFactory<Collectible> {
 	{
         //Collectible c = cache.Get(_itemPosition); //Instantiate<Collectible>(items[_itemPosition]);  
         c.collectibleManager = collectibleManager; 
-		c.transform.position = new Vector3(Random.Range(_minX, _maxX), _positionY);
+		c.transform.position = new Vector3(Random.Range(_minX + c.spriteWidth/2, _maxX - c.spriteWidth/2), _positionY);
 	}
   
 	#endregion

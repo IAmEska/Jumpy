@@ -8,45 +8,52 @@ public abstract class AbstractCache<T> : MonoBehaviour where T : MonoBehaviour {
 	public T[] cacheTypes;
 
 
-	protected Dictionary<string,T[]> _dictionary;
+	protected Dictionary<string,List<T>> _dictionary;
 
 	// Use this for initialization
 	void Start () {
-        _dictionary = new Dictionary<string, T[]>();
+        _dictionary = new Dictionary<string, List<T>>();
 		foreach(T type in cacheTypes){
-			T[] arr = new T[cacheSize];
+			List<T> arr = new List<T>();
 			for (int i=0; i<cacheSize; i++) {
 				T instance = Instantiate(type);
-				instance.gameObject.SetActive(false);
-				instance.transform.parent = transform;
-				arr[i] = instance;
+				instance.transform.position = new Vector3(-100, -100, 0);
+				instance.transform.SetParent(transform);
+                instance.gameObject.SetActive(false);
+                arr.Add(instance);
+                AdditionStart(instance);
 			}
 			_dictionary.Add (type.GetType().Name, arr);
 		}
 	}
 
+    protected virtual void AdditionStart(T item)
+    {
+
+    }
+
 	public virtual void Return(T obj)
-	{
+	{                 
+
 		var key = obj.GetType ().Name;
         bool cached = false;
 
         if (_dictionary.ContainsKey(key))
         { 
-		    T[] arr = _dictionary [key];
-            
-		    for (int i=0; i<arr.Length; i++) {
-			    if(arr[i] == null)
-			    {
-                    obj.gameObject.SetActive(false);
-				    arr[i] = obj;
-                    cached = true;
-                    break;
-			    }                                                      
-		    }
+		    List<T> arr = _dictionary [key];
+            if(arr.Count < cacheSize)
+            {       
+                obj.transform.position = new Vector3(-100, -100, 0);
+                obj.transform.rotation = Quaternion.identity;
+                obj.transform.SetParent(transform);
+                obj.gameObject.SetActive(false);
+                arr.Add(obj);
+                cached = true;
+            }
         }
 
         if (!cached)
-		    Destroy (obj.gameObject);
+            Destroy(obj.gameObject);
 	}
 
 	public T Get(int cacheTypePosition)
@@ -55,15 +62,11 @@ public abstract class AbstractCache<T> : MonoBehaviour where T : MonoBehaviour {
 		string key = cacheTypes [cacheTypePosition].name;
         if (_dictionary.ContainsKey(key))
         {
-            T[] arr = _dictionary[key];
-            for (int i = 0; i < arr.Length; i++)
+            List<T> arr = _dictionary[key];
+            if(arr.Count > 0)
             {
-                if (arr[i] != null)
-                {
-                    obj = arr[i];
-                    arr[i] = null;
-                    break;
-                }
+                obj = arr[0];
+                arr.RemoveAt(0);
             }
 
             if (obj != null)

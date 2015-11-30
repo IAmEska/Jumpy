@@ -18,6 +18,7 @@ public class PlayerPrototype : MonoBehaviour
         JumpingBehaviour
     }
 
+    public GameObject shield;
     public PlayerState state;
     public Rigidbody2D mRigidbody;
     public PlayerBehaviours selectedBehaviour;
@@ -27,6 +28,7 @@ public class PlayerPrototype : MonoBehaviour
         jumpPositionYSpread = 0.1f,
         halfWidth,
         halfHeight;
+    public bool isImmortal = false, isShieldOn = false;
 
 	public AudioClip audioJump;
 
@@ -67,6 +69,19 @@ public class PlayerPrototype : MonoBehaviour
         _areaMaxX = Camera.main.transform.position.x + sizeX;
     }
 
+    public void BurstJump(float value)
+    {
+        isImmortal = true;
+        _canDoubleJump = false;
+        mRigidbody.velocity = transform.up * value;
+    }
+
+    public void SetShield(bool isActive)
+    {
+        isShieldOn = isActive;
+        shield.SetActive(isActive);
+    }
+
     void FixedUpdate()
     {
         if (_prevSelectedBehaviour != selectedBehaviour || _behaviour == null) {
@@ -102,6 +117,9 @@ public class PlayerPrototype : MonoBehaviour
                 break;
 
             case PlayerState.Grounded:
+                if (isImmortal)
+                    isImmortal = false;
+
                 _canDoubleJump = true;
                 _behaviour.GroundedBehaviour();
                 break;
@@ -134,7 +152,7 @@ public class PlayerPrototype : MonoBehaviour
 
     protected void CheckGroundCollision()
     {
-        RaycastHit2D[] hits= Physics2D.CircleCastAll(transform.position, 0.2f, transform.up * -1, _rayCastGroundRange, groundMask.value);
+        RaycastHit2D[] hits= Physics2D.CircleCastAll(transform.position, 0.25f, transform.up * -1, _rayCastGroundRange, groundMask.value);
         foreach(RaycastHit2D hit in hits)
 		{
 			if(hit.transform != null)
@@ -142,19 +160,35 @@ public class PlayerPrototype : MonoBehaviour
 				if(hit.distance <= 1)
 				{
 					Platform p = hit.transform.GetComponent<Platform>();
-					if(transform.position.y - halfHeight + 0.15f >= p.transform.position.y + p.platformHeight/2)
-		            {                 
-						_audioSource.PlayOneShot(audioJump);
-		                state = PlayerState.Grounded;
-		                DestroyablePlatform dp = hit.transform.gameObject.GetComponent<DestroyablePlatform>();
-		                if (dp != null)
-		                {
-		                    dp.StartFalling();
+                    if(p != null)
+                    {       
+					    if(transform.position.y - halfHeight + 0.15f >= p.transform.position.y + p.platformHeight/2)
+		                {                 
+						    _audioSource.PlayOneShot(audioJump);
+		                    state = PlayerState.Grounded;
+		                    DestroyablePlatform dp = hit.transform.gameObject.GetComponent<DestroyablePlatform>();
+		                    if (dp != null)
+		                    {
+		                        dp.StartFalling();
+		                    }
 		                }
-		            }    
-				}
+                    }
+                    else
+                    {
+                        Enemy e = hit.transform.GetComponent<Enemy>();
+                        if (e != null)
+                        {
+                            if (transform.position.y - halfHeight + 0.5f >= e.transform.position.y + e.spriteHeight / 2)
+                            {
+                                _audioSource.PlayOneShot(audioJump);
+                                state = PlayerState.Grounded;
+                                e.Hit();
+                            }
+                        }
+                    }   
+                }
 			}
-        }
+        }                            
     }
 
     public void DoubleJump()
@@ -187,6 +221,9 @@ public class PlayerPrototype : MonoBehaviour
         _canDoubleJump = true;
         _doDoubleJump = false;
         _collider.isTrigger = false;
+        shield.SetActive(false);
+        isShieldOn = false;
+        isImmortal = false;
         state = PlayerState.Idle;
 	}
 }

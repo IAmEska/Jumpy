@@ -8,7 +8,8 @@ public class PlatformTypeChance  {
     {
         Destroyable,
         MovingPlatform,
-        Resizeable
+        Resizeable,
+        AutoDestroy
     }                               
                          
     public PlatformType type;
@@ -22,7 +23,10 @@ public class PlatformTypeChance  {
                 return typeof(DestroyablePlatform);  
 
             case PlatformType.MovingPlatform:
-                return typeof(MovingPlatform);  
+                return typeof(MovingPlatform);
+
+            case PlatformType.AutoDestroy:
+                return typeof(SelfDestroyPlatform);
         }
     }
 
@@ -43,5 +47,7 @@ public class PlatformTypeChance  {
 
     //[HideInInspector]
     public float lastSpawnPositionY;
+
+    public int family;
 
 }

@@ -18,12 +18,12 @@ public class PlatformRunner : Enemy
 	}
 	protected override void AliveBehaviour ()
 	{
-		RaycastHit2D currentHit = Physics2D.Raycast (transform.position, -transform.up, _spriteHeight / 2 + landingDistance, groundMask);
+		RaycastHit2D currentHit = Physics2D.Raycast (transform.position, -transform.up, spriteHeight / 2 + landingDistance, groundMask);
 		if (currentHit.transform == null) {
 			transform.position = transform.position + -transform.up * direction * speedY * Time.deltaTime;
 		} else {
 			Vector3 nextPosition = transform.position + transform.right * direction * speed * Time.deltaTime;
-			RaycastHit2D hit = Physics2D.Raycast (nextPosition, -transform.up, _spriteHeight / 2 + landingDistance, groundMask);
+			RaycastHit2D hit = Physics2D.Raycast (nextPosition, -transform.up, spriteHeight / 2 + landingDistance, groundMask);
 			if (hit.transform == null) {
 				var curScale = transform.localScale;
 				curScale.x *= -1;

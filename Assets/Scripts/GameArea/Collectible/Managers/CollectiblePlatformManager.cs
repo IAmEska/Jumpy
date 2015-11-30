@@ -6,6 +6,8 @@ using System.Collections.Generic;
 
 public class CollectiblePlatformManager : AbstractCollectibleManager<PlatformTypeChance.PlatformType>
 {
+    public const float DEFAULT_DURATION = 30;
+
     protected PlatformFactory _platformFactory;
     protected float _defaultDuration = 30;
           
@@ -97,8 +99,7 @@ public class CollectiblePlatformManager : AbstractCollectibleManager<PlatformTyp
     {    
          switch(type)
         {
-            default:
-                Debug.Log(type + " to position " + toPositionY);
+            default:                                              
                 AddDefaultCollectible(type, toPositionY);
                 break;
 
@@ -114,11 +115,9 @@ public class CollectiblePlatformManager : AbstractCollectibleManager<PlatformTyp
         if(list != null && list.Count > 0)
         {
             foreach (CollectibleHolder holder in list)
-            {
-                Debug.Log("CEKUJU - "+holder.item + "stopY: "+holder.toPositionY);
+            {                                                                      
                 if (holder.toPositionY < positionY)
-                {
-                    Debug.Log("JDU ODJEBAT. - "+holder.item);
+                {                                             
                     ResetItem(holder.item);
                 }
             }
@@ -152,8 +151,7 @@ public class CollectiblePlatformManager : AbstractCollectibleManager<PlatformTyp
     }
 
     void ResetResizableItem()
-    {
-        Debug.Log("ODJEBAVAM KURVA!");
+    {                                      
         _platformFactory.minPlatformWidth = _platformFactory.defaultMinPlatformWidth;
         _platformFactory.maxPlatformWidth = _platformFactory.defaultMaxPlatformWidth;
     }

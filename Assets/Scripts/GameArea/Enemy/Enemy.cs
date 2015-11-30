@@ -26,7 +26,7 @@ public abstract class Enemy : MonoBehaviour
 	protected Status  _prevStatus;
 
 	protected float _areaMinX, _areaMaxX;
-	protected float _spriteWidth, _spriteHeight;
+	public float spriteWidth, spriteHeight;
 
 	// Use this for initialization
 	void Start ()
@@ -35,8 +35,8 @@ public abstract class Enemy : MonoBehaviour
 		_collider = GetComponent<Collider2D> ();
 		_renderer = GetComponent<SpriteRenderer> ();
 
-		_spriteWidth = _renderer.bounds.size.x;
-		_spriteHeight = _renderer.bounds.size.y;
+		spriteWidth = _renderer.bounds.size.x;
+		spriteHeight = _renderer.bounds.size.y;
 		float sizeX = Camera.main.orthographicSize * Screen.width / Screen.height;
 		_areaMinX = Camera.main.transform.position.x - sizeX;
 		_areaMaxX = Camera.main.transform.position.x + sizeX;
@@ -98,8 +98,17 @@ public abstract class Enemy : MonoBehaviour
 	{
 		if (status == Status.Alive) {
 			if (other.tag == "Player") {
-				other.GetComponent<PlayerPrototype> ().Kill ();
-			}
+                PlayerPrototype pp = other.GetComponent<PlayerPrototype>();
+                if(pp.isImmortal || pp.isShieldOn)
+                {
+                    pp.SetShield(false);
+                    Hit();
+                }
+                else
+                { 
+                    pp.Kill ();
+                }
+            }
 		}
 	}
 
