@@ -1,0 +1,320 @@
+fileFormatVersion: 2
+guid: 8ede7d37834d0a14bb38b59339d6eabf
+timeCreated: 1448912302
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: player_animation_atlas_0
+    21300002: player_animation_atlas_1
+    21300004: player_animation_atlas_2
+    21300006: player_animation_atlas_3
+    21300008: player_animation_atlas_4
+    21300010: player_animation_atlas_5
+    21300012: player_animation_atlas_6
+    21300014: player_animation_atlas_7
+    21300016: player_animation_atlas_8
+    21300018: player_animation_atlas_9
+    21300020: player_animation_atlas_10
+    21300022: player_animation_atlas_11
+    21300024: player_animation_atlas_12
+    21300026: player_animation_atlas_13
+    21300028: player_animation_atlas_14
+    21300030: player_animation_atlas_15
+    21300032: player_animation_atlas_16
+    21300034: player_animation_atlas_17
+    21300036: player_animation_atlas_18
+    21300038: player_animation_atlas_19
+    21300040: player_animation_atlas_20
+    21300042: player_animation_atlas_21
+    21300044: player_animation_atlas_22
+    21300046: player_animation_atlas_23
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: player_animation_atlas_0
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 1664
+        width: 252
+        height: 264
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_1
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 1664
+        width: 249
+        height: 263
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_2
+      rect:
+        serializedVersion: 2
+        x: 894
+        y: 1664
+        width: 223
+        height: 268
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_3
+      rect:
+        serializedVersion: 2
+        x: 1330
+        y: 1664
+        width: 187
+        height: 273
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_4
+      rect:
+        serializedVersion: 2
+        x: 1736
+        y: 1664
+        width: 181
+        height: 274
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_5
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 1304
+        width: 181
+        height: 270
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_6
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 1304
+        width: 182
+        height: 266
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_7
+      rect:
+        serializedVersion: 2
+        x: 934
+        y: 1304
+        width: 184
+        height: 263
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_8
+      rect:
+        serializedVersion: 2
+        x: 1329
+        y: 1307
+        width: 189
+        height: 265
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_9
+      rect:
+        serializedVersion: 2
+        x: 1724
+        y: 1310
+        width: 193
+        height: 268
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_10
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 908
+        width: 197
+        height: 271
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_11
+      rect:
+        serializedVersion: 2
+        x: 517
+        y: 911
+        width: 200
+        height: 274
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_12
+      rect:
+        serializedVersion: 2
+        x: 918
+        y: 914
+        width: 203
+        height: 276
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_13
+      rect:
+        serializedVersion: 2
+        x: 1315
+        y: 917
+        width: 215
+        height: 279
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_14
+      rect:
+        serializedVersion: 2
+        x: 1709
+        y: 937
+        width: 226
+        height: 281
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_15
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 539
+        width: 236
+        height: 283
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_16
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 539
+        width: 227
+        height: 283
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_17
+      rect:
+        serializedVersion: 2
+        x: 938
+        y: 539
+        width: 208
+        height: 283
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_18
+      rect:
+        serializedVersion: 2
+        x: 1350
+        y: 540
+        width: 185
+        height: 282
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_19
+      rect:
+        serializedVersion: 2
+        x: 1754
+        y: 539
+        width: 181
+        height: 283
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_20
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 172
+        width: 184
+        height: 281
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_21
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 174
+        width: 208
+        height: 279
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_22
+      rect:
+        serializedVersion: 2
+        x: 917
+        y: 172
+        width: 226
+        height: 281
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_animation_atlas_23
+      rect:
+        serializedVersion: 2
+        x: 1312
+        y: 170
+        width: 236
+        height: 283
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

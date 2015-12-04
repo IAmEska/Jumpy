@@ -22,7 +22,7 @@ public class LineyFlyingDropEnemy : LineFlyingEnemy
 	protected override void AliveBehaviour ()
 	{
 		base.AliveBehaviour ();
-		if (!_isDropped) {
+		if (!_isDropped && dropItem) {
 			if (Time.timeSinceLevelLoad >= _dropTime) {
 				_isDropped = true;
 				dropItem.transform.parent = transform.parent;
@@ -34,6 +34,7 @@ public class LineyFlyingDropEnemy : LineFlyingEnemy
     public override void Hit()
     {
         base.Hit();
-        dropItem.Hit();
+        if(dropItem)
+            dropItem.Hit();
     }
 }

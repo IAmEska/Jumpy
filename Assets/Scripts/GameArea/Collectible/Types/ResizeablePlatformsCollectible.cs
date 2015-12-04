@@ -13,11 +13,13 @@ public class ResizeablePlatformsCollectible : AbstractCollectiblePlatforms {
         if (value == 0)
         {
             sp.sprite = positiveScaleSprite;
+            sound = AudioManager.AudioSound.Resize;
             value = valueMax;
         }
         else
         {
             sp.sprite = negativeScaleSprite;
+            sound = AudioManager.AudioSound.Shrink;
             value = valueMin;
         }
         type = PlatformTypeChance.PlatformType.Resizeable;              

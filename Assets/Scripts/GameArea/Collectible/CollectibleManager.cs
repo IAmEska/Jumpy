@@ -16,6 +16,8 @@ public class CollectibleManager : MonoBehaviour {
     public PlatformFactory platformFactory;
     public PlayerPrototype playerPrototype;
     public LayerMask landMask;
+    public SafetyNet safetyNet;
+
     public int defaultDuration = 20;
 
     protected CollectiblePlatformManager _collectiblePlatformManager;
@@ -123,11 +125,20 @@ public class CollectibleManager : MonoBehaviour {
         {
             AddShieldCollectible();
         }
+        else if(_collectibleToAdd is SafetyNetCollectible)
+        {
+            AddSafetyNetCollectible();
+        }
 
         if(addCollectibleToGui)
             powerUpInfoManager.AddCollectible(_collectibleToAdd, infoValue);
         
         Destroy(_collectibleToAdd.gameObject);
+    }
+
+    protected void AddSafetyNetCollectible()
+    {
+        safetyNet.gameObject.SetActive(true);
     }
 
     protected void ResetBehaviour()

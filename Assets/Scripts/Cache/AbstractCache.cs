@@ -73,6 +73,11 @@ public abstract class AbstractCache<T> : MonoBehaviour where T : MonoBehaviour {
                 return obj;
         }
 
-		return Instantiate(cacheTypes[cacheTypePosition]);
-	}
+		obj = Instantiate(cacheTypes[cacheTypePosition]);
+        obj.transform.position = new Vector3(-100, -100, 0);
+        obj.transform.SetParent(transform);
+        obj.gameObject.SetActive(false);
+        AdditionStart(obj);
+        return obj;
+    }
 }

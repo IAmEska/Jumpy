@@ -5,32 +5,49 @@ using System.Collections.Generic;
 [RequireComponent(typeof(AudioSource))]
 public class AudioManager : MonoBehaviour {
 
-	protected List<AudioClip> _clipsToPlay;
+	protected AudioSound _clipToPlay;
 
 	protected AudioSource _audioSource;
+
+    public AudioClip coin, resize, shrink;
+
+
+    public enum AudioSound
+    {
+        Nothing,
+        Coin,
+        Resize,
+        Shrink
+    }
 
 	// Use this for initialization
 	void Start () 
 	{
 		_audioSource = GetComponent<AudioSource>();
-		_clipsToPlay = new List<AudioClip>();
+        _clipToPlay = AudioSound.Nothing;
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		if(_clipsToPlay.Count > 0)
-		{
-			foreach(AudioClip clip in _clipsToPlay)
-			{
-				_audioSource.PlayOneShot(clip);
-			}
-			_clipsToPlay.Clear();
-		}
+		switch(_clipToPlay)
+        {
+            case AudioSound.Coin:
+                _audioSource.PlayOneShot(coin);
+                break;
+            case AudioSound.Resize:
+                _audioSource.PlayOneShot(resize);
+                break;
+            case AudioSound.Shrink:
+                _audioSource.PlayOneShot(shrink);
+                break;
+        }
+    
+        _clipToPlay = AudioSound.Nothing;
 	}
 
-	public void Play(AudioClip clip)
+	public void Play(AudioSound type)
 	{
-		_clipsToPlay.Add (clip);
-	}
+        _clipToPlay = type;
+    }
 }

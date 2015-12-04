@@ -35,6 +35,8 @@ public static class Constants
     public const string TAG_PLAYER = "Player";
     public const string TAG_ENEMY = "Enemy";
     public const string TAG_DOUBLE_JUMP = "DoubleJump";
+    public const string TAG_SAFETY_NET = "SafetyNet";
+    public const string TAG_COIN = "Coin";
 
     public const string SETTINGS_SENSITIVITY = "sensitivity";
 

@@ -32,7 +32,8 @@ public class InputManager : MonoBehaviour {
                     if (GameSettings.vibration)
                         Handheld.Vibrate();
 
-                    enemy.Hit();
+                    if(enemy.hitsToDie > 0)
+                        enemy.Hit();
                 }
             }
             else if(collider.CompareTag(Constants.TAG_DOUBLE_JUMP))

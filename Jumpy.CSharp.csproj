@@ -71,6 +71,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CoinMagnet.cs" />
     <Compile Include="Assets\Constants.cs" />
     <Compile Include="Assets\GoogleMobileAds\Api\AdFailedToLoadEventArgs.cs" />
     <Compile Include="Assets\GoogleMobileAds\Api\AdPosition.cs" />
@@ -292,6 +293,7 @@
     <Compile Include="Assets\Scripts\GameArea\Collectible\Types\DestroyablePlatformsCollectible.cs" />
     <Compile Include="Assets\Scripts\GameArea\Collectible\Types\MovingPlatformsCollectible.cs" />
     <Compile Include="Assets\Scripts\GameArea\Collectible\Types\ResizeablePlatformsCollectible.cs" />
+    <Compile Include="Assets\Scripts\GameArea\Collectible\Types\SafetyNetCollectible.cs" />
     <Compile Include="Assets\Scripts\GameArea\Collectible\Types\ShieldCollectible.cs" />
     <Compile Include="Assets\Scripts\GameArea\Collectible\Types\SwapControlsCollectible.cs" />
     <Compile Include="Assets\Scripts\GameArea\Enemy\Enemy.cs" />
@@ -311,6 +313,7 @@
     <Compile Include="Assets\Scripts\GameArea\Platform\PlatformFactory.cs" />
     <Compile Include="Assets\Scripts\GameArea\Platform\PlatformTypeChance.cs" />
     <Compile Include="Assets\Scripts\GameArea\Platform\Type\Platform.cs" />
+    <Compile Include="Assets\Scripts\GameArea\Platform\Type\SafetyNet.cs" />
     <Compile Include="Assets\Scripts\GameArea\Platform\Type\StartPlatform.cs" />
     <Compile Include="Assets\Scripts\GameArea\Types\GameAreaType.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />

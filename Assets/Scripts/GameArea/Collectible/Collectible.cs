@@ -1,21 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(AudioSource))]
 public abstract class Collectible : MonoBehaviour
-{
-    public AudioClip audioClip;
+{                       
+    public AudioManager audioManager;
+
     public CollectibleManager collectibleManager;
     public float spriteWidth;
     public float spriteHeight;
 
-	protected AudioSource _audioSource;
+    public AudioManager.AudioSound sound;
+
     protected SpriteRenderer _renderer;
 
 	void Start ()
 	{
         _renderer = GetComponent<SpriteRenderer>();
-		_audioSource = GetComponent<AudioSource> ();
         spriteWidth = _renderer.bounds.size.x;
         spriteHeight = _renderer.bounds.size.y;
 	}
@@ -28,13 +28,15 @@ public abstract class Collectible : MonoBehaviour
 	void OnTriggerEnter2D (Collider2D other)
 	{
 		if (other.CompareTag(Constants.TAG_PLAYER)) {
-			/*if (GameSettings.vibration)
-				Handheld.Vibrate ();
+            PlayerPrototype pp = other.GetComponent<PlayerPrototype>();
+            if(pp != null)
+            {
+                if (pp.state == PlayerPrototype.PlayerState.Dead)
+                    return;
+            }
 
-			if (GameSettings.soundFx) {
-                Debug.Log("DING");        
-				//_audioSource.PlayOneShot (audioClip, GameSettings.soundFxVolume);
-            }     */
+            if(audioManager)
+                audioManager.Play(sound);
 
             collectibleManager.AddCollectible(this);
         }
