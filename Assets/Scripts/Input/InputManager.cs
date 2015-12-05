@@ -39,7 +39,7 @@ public class InputManager : MonoBehaviour {
             else if(collider.CompareTag(Constants.TAG_DOUBLE_JUMP))
             {
                 performDoubleJump = true;
-                Debug.Log("DOUBLE JUMP HIT");
+                //Debug.Log("DOUBLE JUMP HIT");
             }
         }
     }

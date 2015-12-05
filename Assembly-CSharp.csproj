@@ -45,6 +45,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\CoinMagnet.cs" />
      <Compile Include="Assets\Constants.cs" />
      <Compile Include="Assets\GoogleMobileAds\Api\AdFailedToLoadEventArgs.cs" />
      <Compile Include="Assets\GoogleMobileAds\Api\AdPosition.cs" />
@@ -243,6 +244,7 @@
      <Compile Include="Assets\GooglePlayGames\Platforms\PlayGamesClientFactory.cs" />
      <Compile Include="Assets\GooglePlayGames\Platforms\TokenClient.cs" />
      <Compile Include="Assets\GooglePlayGames\PluginVersion.cs" />
+     <Compile Include="Assets\Lava.cs" />
      <Compile Include="Assets\PowerUpInfoHolder.cs" />
      <Compile Include="Assets\PowerUpInfoManager.cs" />
      <Compile Include="Assets\Scripts\Ads\AdsManager.cs" />
@@ -252,7 +254,6 @@
      <Compile Include="Assets\Scripts\Cache\Types\EnemyCache.cs" />
      <Compile Include="Assets\Scripts\Cache\Types\PlatformCache.cs" />
      <Compile Include="Assets\Scripts\Camera\CameraFollow.cs" />
-     <Compile Include="Assets\Scripts\Control\PlayerControlTouch.cs" />
      <Compile Include="Assets\Scripts\Destructor.cs" />
      <Compile Include="Assets\Scripts\GameArea\AbstractFactory.cs" />
      <Compile Include="Assets\Scripts\GameArea\Collectible\Collectible.cs" />
@@ -264,8 +265,10 @@
      <Compile Include="Assets\Scripts\GameArea\Collectible\Types\BurstCollectible.cs" />
      <Compile Include="Assets\Scripts\GameArea\Collectible\Types\Coin.cs" />
      <Compile Include="Assets\Scripts\GameArea\Collectible\Types\DestroyablePlatformsCollectible.cs" />
+     <Compile Include="Assets\Scripts\GameArea\Collectible\Types\MagnetCollectible.cs" />
      <Compile Include="Assets\Scripts\GameArea\Collectible\Types\MovingPlatformsCollectible.cs" />
      <Compile Include="Assets\Scripts\GameArea\Collectible\Types\ResizeablePlatformsCollectible.cs" />
+     <Compile Include="Assets\Scripts\GameArea\Collectible\Types\SafetyNetCollectible.cs" />
      <Compile Include="Assets\Scripts\GameArea\Collectible\Types\ShieldCollectible.cs" />
      <Compile Include="Assets\Scripts\GameArea\Collectible\Types\SwapControlsCollectible.cs" />
      <Compile Include="Assets\Scripts\GameArea\Enemy\Enemy.cs" />
@@ -285,18 +288,17 @@
      <Compile Include="Assets\Scripts\GameArea\Platform\PlatformFactory.cs" />
      <Compile Include="Assets\Scripts\GameArea\Platform\PlatformTypeChance.cs" />
      <Compile Include="Assets\Scripts\GameArea\Platform\Type\Platform.cs" />
+     <Compile Include="Assets\Scripts\GameArea\Platform\Type\SafetyNet.cs" />
      <Compile Include="Assets\Scripts\GameArea\Platform\Type\StartPlatform.cs" />
      <Compile Include="Assets\Scripts\GameArea\Types\GameAreaType.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\GameServices\GameServiceManager.cs" />
      <Compile Include="Assets\Scripts\GameSettings.cs" />
      <Compile Include="Assets\Scripts\Input\InputManager.cs" />
-     <Compile Include="Assets\Scripts\KillingFloor.cs" />
      <Compile Include="Assets\Scripts\MainMenu\MainMenuBehaviour.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerBehaviour\AbstractPlayerBehaviour.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerBehaviour\JumpingPlayerBehaviour.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerPrototype.cs" />
-     <Compile Include="Assets\Scripts\Projectile.cs" />
      <Compile Include="Assets\Scripts\SettingsManager.cs" />
      <Compile Include="Assets\Scripts\Spawn\IBottomSpawn.cs" />
      <Compile Include="Assets\Scripts\Spawn\ITopSpawn.cs" />

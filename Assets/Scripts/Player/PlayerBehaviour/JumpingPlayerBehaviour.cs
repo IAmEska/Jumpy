@@ -37,12 +37,10 @@ public class JumpingPlayerBehaviour : AbstractPlayerBehaviour
         if (_playerPrototype.mRigidbody.velocity.x < 0)
         {
             _playerPrototype.direction = 1;
-            Debug.Log("moving left");
         }
         else if (_playerPrototype.mRigidbody.velocity.x > 0)
         { 
             _playerPrototype.direction = -1;
-            Debug.Log("moving right");
         }
     }
 

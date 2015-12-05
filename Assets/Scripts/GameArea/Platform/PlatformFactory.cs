@@ -72,19 +72,27 @@ public class PlatformFactory : AbstractFactory<Platform> {
                 platformCount = Random.Range(minPlatformAtOnce + 1, maxPlatformAtOnce + 1);
             }
 
+			
+
             if (_itemPosition >= 0 && _itemPosition < cache.cacheTypes.Length)
             {
-                for(int i =0; i<platformCount; i++)
-                { 
-                    Platform item = cache.Get(_itemPosition);   
-                    item.gameObject.SetActive(true);       
-                    item.transform.SetParent(transform);   
-                    SpawnItem(item);
-                }
+				StartCoroutine(GeneratePlatform(platformCount, _itemPosition));
             }
                                    
         _itemPosition = -1;
     }
+
+	IEnumerator GeneratePlatform(int count, int itemPosition)
+	{
+		for(int i =0; i<count; i++)
+		{ 
+			Platform item = cache.Get(itemPosition);   
+			item.gameObject.SetActive(true);       
+			item.transform.SetParent(transform);   
+			SpawnItem(item);
+			yield return null;
+		}
+	}
 
     public StartPlatform InstantiateStartPlatform(float starPosY)
 	{

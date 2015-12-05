@@ -73,7 +73,7 @@ public class GameServiceManager : MonoBehaviour {
             {
                 if(response)
                 {
-                    Debug.Log("score submited yay");
+                    //Debug.Log("score submited yay");
                 }
             });
         }
@@ -103,19 +103,19 @@ public class GameServiceManager : MonoBehaviour {
 
     protected void ShowTestAchievement()
     {
-        Debug.Log("calledAchievement");
+        //Debug.Log("calledAchievement");
         myText.text += "calledAchievement\n";
         Social.ReportProgress(Constants.achievement_firstten, 100.0f, (bool success) =>
         {
             if (success)
             {
                 myText.text += "jo\n";
-                Debug.Log("testAchievement");
+                //Debug.Log("testAchievement");
             }
             else
             {
                 myText.text += "picu\n";
-                Debug.Log("testAchievement failed");
+                //Debug.Log("testAchievement failed");
             }
         });
         //Social.ShowAchievementsUI();

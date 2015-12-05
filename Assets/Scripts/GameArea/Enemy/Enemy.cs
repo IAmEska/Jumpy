@@ -102,7 +102,7 @@ public abstract class Enemy : MonoBehaviour
 	void OnTriggerEnter2D (Collider2D other)
 	{
 		if (status == Status.Alive) {
-			if (other.tag == "Player") {
+			if (other.CompareTag(Constants.TAG_PLAYER)) {
                 if (_hitsLeft > 0)
                 { 
                     PlayerPrototype pp = other.GetComponent<PlayerPrototype>();

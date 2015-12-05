@@ -36,13 +36,19 @@ public abstract class Factory : MonoBehaviour  {
 
     protected virtual void ClearBehaviour()
     {
-        Component[] components = GetComponentsInChildren(ItemType());
-        for(int i=0; i<components.Length; i++)
-        {
-            DestoryItem(components[i]);
-        }
+		StartCoroutine (Clear ());
     } 
     
+	IEnumerator Clear()
+	{
+		Component[] components = GetComponentsInChildren(ItemType());
+		for(int i=0; i<components.Length; i++)
+		{
+			DestoryItem(components[i]);
+			yield return null;
+		}
+	}
+
     void FixedUpdate()
     {
         switch(_state)

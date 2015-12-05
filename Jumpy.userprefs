@@ -1,14 +1,43 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameArea/Enemy/Enemy.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Player/PlayerPrototype.cs">
     <Files>
-      <File FileName="Assets/Scripts/Ads/AdsManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Player/PlayerPrototype.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Audio/AudioManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Player/PlayerBehaviour/JumpingPlayerBehaviour.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Cache/Types/CollectibleCache.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Cache/AbstractCache.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Cache/Types/EnemyCache.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Cache/Types/PlatformCache.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Camera/CameraFollow.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/AbstractFactory.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Factory.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/FactoryTypeInfo.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/LevelGenerator.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Collectible/Collectible.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Collectible/CollectibleFactory.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Collectible/CollectibleManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Collectible/Managers/AbstractCollectibleManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Collectible/Managers/CollectiblePlatformManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Collectible/Types/AbstractCollectiblePlatforms.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Collectible/Types/BurstCollectible.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Collectible/Types/Coin.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Enemy/Enemy.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Enemy/EnemyFactory.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Enemy/Types/LineFlyingEnemy.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Enemy/Types/LineyFlyingDropEnemy.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Enemy/Types/PlatformRunner.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Enemy/Types/StandingEnemy.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Enemy/Types/UpToDownFlyingEnemy.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Platform/PlatformFactory.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Platform/PlatformTypeChance.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/GameArea/Platform/Components/DestroyablePlatform.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GameArea/Enemy/Enemy.cs" Line="106" Column="6" />
+      <File FileName="Assets/Scripts/GameArea/Platform/Components/MovingPlatform.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Platform/Components/PlatformComponent.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Platform/Components/SelfDestroyPlatform.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Platform/Type/Platform.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameArea/Platform/Type/StartPlatform.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameServices/GameServiceManager.cs" Line="118" Column="19" />
+      <File FileName="Assets/Scripts/Input/InputManager.cs" Line="42" Column="19" />
+      <File FileName="Assets/Scripts/MainMenu/MainMenuBehaviour.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Player/PlayerPrototype.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

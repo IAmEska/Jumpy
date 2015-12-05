@@ -29,6 +29,26 @@ public class LevelGenerator : MonoBehaviour
 
     protected GeneratorState _state, _prevState;
 
+	IEnumerator GenerateCoroutine(float positionY)
+	{
+		foreach (FactoryTypeInfo fti in factories)
+		{
+			float position = positionY;
+			if (fti.addOffset)
+				position += offsetY / 2;
+			
+			if (fti.generateFromStart)
+			{
+				fti.factory.InstantiateItem(position);
+			}
+			else if (_currentPositionY > _startPosY + 2 * Camera.main.orthographicSize)
+			{
+				fti.factory.InstantiateItem(position);
+			}
+			yield return null;
+		}
+	}
+
 	// Use this for initialization
 	void Start ()
 	{                           
@@ -53,6 +73,7 @@ public class LevelGenerator : MonoBehaviour
 
     protected void ResetBehaviour ()
 	{
+		StopAllCoroutines ();
         ClearAll();                                           
 		_currentPositionY = _startPosY + offsetY;   
 	}
@@ -62,22 +83,7 @@ public class LevelGenerator : MonoBehaviour
         if (_currentPositionY < Camera.main.transform.position.y + Camera.main.orthographicSize)
         {
             _platformFactory.isAdvancedPlatforms = true;
-
-            foreach (FactoryTypeInfo fti in factories)
-            {
-                float position = _currentPositionY;
-                if (fti.addOffset)
-                    position += offsetY / 2;
-
-                if (fti.generateFromStart)
-                {
-                    fti.factory.InstantiateItem(position);
-                }
-                else if (_currentPositionY > _startPosY + 2 * Camera.main.orthographicSize)
-                {
-                    fti.factory.InstantiateItem(position);
-                }
-            }
+			StartCoroutine(GenerateCoroutine(_currentPositionY));
             _currentPositionY += 2f;
         }
     }
@@ -151,7 +157,6 @@ public class LevelGenerator : MonoBehaviour
 	{       
         foreach(FactoryTypeInfo fti in factories)
         {
-            Debug.Log("clearing factory: " + fti.factory.name);
             fti.factory.SetState(Factory.FactoryState.CLEAR);
         }                    
     }      

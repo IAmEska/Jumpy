@@ -6,25 +6,34 @@ public abstract class AbstractCache<T> : MonoBehaviour where T : MonoBehaviour {
 
 	public int cacheSize;
 	public T[] cacheTypes;
-
+	Hashtable t;
 
 	protected Dictionary<string,List<T>> _dictionary;
 
-	// Use this for initialization
-	void Start () {
-        _dictionary = new Dictionary<string, List<T>>();
+	IEnumerator Spawn()
+	{
 		foreach(T type in cacheTypes){
 			List<T> arr = new List<T>();
 			for (int i=0; i<cacheSize; i++) {
 				T instance = Instantiate(type);
 				instance.transform.position = new Vector3(-100, -100, 0);
 				instance.transform.SetParent(transform);
-                instance.gameObject.SetActive(false);
-                arr.Add(instance);
-                AdditionStart(instance);
+				instance.gameObject.SetActive(false);
+				arr.Add(instance);
+				AdditionStart(instance);
+				yield return null;
 			}
 			_dictionary.Add (type.GetType().Name, arr);
+			yield return null;
 		}
+	}
+
+
+
+	// Use this for initialization
+	void Start () {
+        _dictionary = new Dictionary<string, List<T>>();
+		StartCoroutine (Spawn ());
 	}
 
     protected virtual void AdditionStart(T item)

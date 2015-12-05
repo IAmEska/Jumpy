@@ -20,7 +20,7 @@ public class PlayerPrototype : MonoBehaviour
 
 	public const string ANIM_FORCE = "Force";
 
-    public GameObject shield;
+    public GameObject shield, magnet;
     public PlayerState state;
     public Rigidbody2D mRigidbody;
     public PlayerBehaviours selectedBehaviour;
@@ -98,6 +98,11 @@ public class PlayerPrototype : MonoBehaviour
         isShieldOn = isActive;
         shield.SetActive(isActive);
     }
+
+	public void SetMagnet(bool isActive)
+	{
+		magnet.SetActive (isActive);
+	}
 
   /*  IEnumerator JumpAnimation()
     {

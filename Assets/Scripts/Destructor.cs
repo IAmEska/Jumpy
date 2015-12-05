@@ -15,8 +15,7 @@ public class Destructor : MonoBehaviour
                                        
 
     void OnTriggerEnter2D(Collider2D other)
-    {
-        Debug.Log("entered: " + other.name);                          
+    {                        
         int objLayerMask = (1 << other.gameObject.layer);
         if (Camera.main.transform.position.y >= destroyFromHeigh)
         {
@@ -29,11 +28,6 @@ public class Destructor : MonoBehaviour
 			if (Reset != null)
 				Reset ();
         }
-    }
-
-    void OnTriggerStay2D(Collider2D other)
-    {
-        Debug.Log("stay: " + other.name);
     }
 
 }

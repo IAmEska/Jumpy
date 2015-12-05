@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
 
     public Canvas GUI_mainMenu, GUI_inGame;
     public UnityEngine.UI.Text GUI_scoreBoard;
+	public Lava lava;
 
     protected bool _isPaused = false;
 
@@ -99,7 +100,8 @@ public class GameManager : MonoBehaviour
         _settingsManager.SetIndicators();
 
          _maxPlayerPositionY = 0;
-        GUI_scoreBoard.text = "" + _maxPlayerPositionY;        
+        GUI_scoreBoard.text = "" + _maxPlayerPositionY;      
+
 		_state = GameState.Killed;
 	}
 
@@ -132,9 +134,9 @@ public class GameManager : MonoBehaviour
 
 		case GameState.Reset:    
 			_playerInstance.Reset ();
-                
              inputManager.Reset();
 			_camera.Reset ();
+			lava.Reset ();
 			_state = GameState.Start;
 			break;
                 
